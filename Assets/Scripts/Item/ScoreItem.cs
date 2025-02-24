@@ -13,8 +13,8 @@ public class ScoreItem : Item
         Chest    // 4점 아이템
     }
     
-    public ItemType itemType;   // 아이템 종류
-    public int scoreAmount;     // 아이템 점수 값
+    [SerializeField] private ItemType itemType;   // 아이템 종류
+    [SerializeField] private int scoreAmount;     // 아이템 점수 값
 
     public void Start()
     {

@@ -28,10 +28,11 @@ public class ItemManager : MonoBehaviour
         if (_instance == null)  // 만약 이미 인스턴스가 존재하면 새로 생성된 객체를 삭제
         {
             _instance = this;
+            DontDestroyOnLoad(gameObject);  // 씬 전환 시에도 오브젝트를 파괴하지 않음
         }
         else
         {
-            Destroy(gameObject);
+            Destroy(gameObject);   // 이미 존재하는 인스턴스가 있으면 새로운 객체를 삭제
         }
     }
     
