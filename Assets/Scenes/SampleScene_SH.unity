@@ -583,7 +583,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4650700348335424683, guid: 25562d3124debd449b4fde268f84237e, type: 3}
       propertyPath: m_TagString
-      value: Untagged
+      value: BackGround
+      objectReference: {fileID: 0}
+    - target: {fileID: 8781142597004281178, guid: 25562d3124debd449b4fde268f84237e, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

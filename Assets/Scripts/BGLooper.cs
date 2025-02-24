@@ -11,38 +11,59 @@ public class BGLopper : MonoBehaviour
     public int obstacleCount = 0;
     public Vector3 obstacleLastPosition = Vector3.zero;
 
-     void Start()
-    {   /*
-        Obstacle[] obstacles = GameObject.FindObjectOfType<Obstacle>();
-        obstacleLastPosition = obstacles[0].transform.position;
-        obstacleCount = obstacles.Length;
+    private ObstacleManager obstacleManager;
+    void Start()
+    {
+        obstacleManager = ObstacleManager.Instance;
 
-        for(int i = 0; i < obstacleCount; i++)
+
+        Obstacle[] obstacles = GameObject.FindObjectsOfType<Obstacle>();
+        obstacleLastPosition = obstacles[0].transform.position;
+        //obstacleCount = obstacles.Length;
+
+        for (int i = 0; i < numBgCount; i++)
         {
-            obstacleLastPosition = obstacles[i].SetRandomPlace(obstacleLastPosition, obstacleCount);
+            obstacleLastPosition = obstacleManager.SpawnRandomObstacle(obstacles[0], obstacleLastPosition);
         }
-        */
+
     }
 
-    public void OnTriggerEnter2D(Collider2D collision)
+    public void OnTriggerEnter2D(Collider2D _collision)
     {
-        Debug.Log("Triggerd: " +  collision.name);
-        if (collision.CompareTag("BackGround"))
+        Debug.Log("Triggerd: " + _collision.name);
+        ///  backGround Loop
+        if (_collision.CompareTag("BackGround"))
         {
-            float widthOfBgObject = ((BoxCollider2D)collision).size.x;
-            Vector3 pos = collision.transform.position;
+            float widthOfBgObject = ((BoxCollider2D)_collision).size.x;
+            Vector3 pos = _collision.transform.position;
 
             pos.x += widthOfBgObject * numBgCount;
             Debug.Log("Background Width: " + widthOfBgObject);
-            collision.transform.position = pos;
+            _collision.transform.position = pos;
             return;
         }
-        /*
-        Obstacle obstacle = collision.GetComponent<Obstacle>();
-        if (obstacle)
+
+
+
+        Obstacle _obstacle = _collision.GetComponent<Obstacle>();
+        if (_obstacle)
         {
-            obstacleLastPosition = obstacle.SetRandomPlace(obstacleLastPosition, obstacleCount);
+            obstacleLastPosition = obstacleManager.SpawnRandomObstacle(_obstacle, obstacleLastPosition);
         }
-        */
+
+        //Obstacle obstacle = collision.GetComponent<Obstacle>();
+        //if (obstacle)
+        //{
+        //    obstacleLastPosition = obstacle.SetRandomPlace(obstacleLastPosition, obstacleCount);
+        //}
+
     }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.name.Contains("Obstacle"))
+        {
+            Destroy(collision.gameObject);
+        }
+    }
+
 }
