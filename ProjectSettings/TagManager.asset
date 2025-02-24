@@ -4,8 +4,7 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - ScoreItem
-  - EffectItem
+  - BackGround
   layers:
   - Default
   - TransparentFX
