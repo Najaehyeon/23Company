@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1984817815543393343}
   - component: {fileID: 7581116227398258210}
   - component: {fileID: 3862981468337513628}
-  - component: {fileID: 4890596520001862171}
   - component: {fileID: 1577953806310226659}
   m_Layer: 0
   m_Name: Chest
@@ -297,18 +296,6 @@ PolygonCollider2D:
       - {x: 0.13786764, y: -0.423943}
       - {x: 0.14734605, y: -0.41791132}
   m_UseDelaunayMesh: 0
---- !u!114 &4890596520001862171
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3357454298474382426}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4994a00908804729b38e128c82f247b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1577953806310226659
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -321,5 +308,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a13c81e9fae14f84929a39efee01f45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemType: 3
+  itemType: 0
   scoreAmount: 0

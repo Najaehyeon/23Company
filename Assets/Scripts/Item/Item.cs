@@ -12,6 +12,7 @@ public class Item : MonoBehaviour
     protected virtual void OnCollect()
     {
         Destroy(gameObject); // 아이템 제거
+        Debug.Log($"{gameObject.name} 아이템 획득!");
     }
     
     // 충돌 감지. 플레이어와 충돌하면 OnCollect 실행
