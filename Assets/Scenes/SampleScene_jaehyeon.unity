@@ -1409,7 +1409,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bestScoreTxt: {fileID: 266434340}
-  currentScoreTxt: {fileID: 0}
+  currentScoreTxt: {fileID: 2141939305}
 --- !u!1 &1185209199
 GameObject:
   m_ObjectHideFlags: 0
