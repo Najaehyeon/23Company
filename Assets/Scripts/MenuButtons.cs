@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class MenuButtons : MonoBehaviour
 {
+    public SpriteRenderer playerImage;
     public GameObject optionPanel;
 
     public void StartGame() // 게임 시작 버튼 누를 때 실행되는 메서드
@@ -14,6 +15,7 @@ public class MenuButtons : MonoBehaviour
 
     public void ActiveOption() // 옵션 버튼 누를 때 실행되는 메서드
     {
+        playerImage.sortingOrder = -1;
         optionPanel.SetActive(true);
     }
 
