@@ -37,9 +37,9 @@ public class ScoreItem : Item
     }
     
     // 아이템 획득 시 점수를 추가
-    protected override void OnCollect()
+    protected override void OnCollect(Player player)
     {
-        base.OnCollect(); // 아이템 제거 (부모 클래스의 OnCollect 실행)
+        base.OnCollect(player); // 아이템 제거 (부모 클래스의 OnCollect 실행)
         ItemManager.Instance.AddScore(scoreAmount); // 점수 추가
     }
 }
