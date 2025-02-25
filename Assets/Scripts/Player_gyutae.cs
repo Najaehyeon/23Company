@@ -46,6 +46,7 @@ public class Player_gyutae : MonoBehaviour
         { // 2단 점프 제한
             Jump();
             jumpCount++;
+
             ground = false;
         }
 
@@ -106,10 +107,10 @@ public class Player_gyutae : MonoBehaviour
             return;          // 죽지 않도록 예외 처리
         }
 
-        isDead = true;
-        deathCooldown = 1f;
-        animator.SetInteger("IsDie", 1); // 애니메이터에 "IsDie"라는 파라미터의 값을 1로 설정(블럭연결)
-        
+        //isDead = true;
+        //deathCooldown = 1f;
+        //animator.SetInteger("IsDie", 1); // 애니메이터에 "IsDie"라는 파라미터의 값을 1로 설정(블럭연결)
+
     }
 
     void Jump()
@@ -117,8 +118,8 @@ public class Player_gyutae : MonoBehaviour
         animator.SetBool("IsJump", true);
         if (jumpCount == 0)
         {
-           // _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, playerJumpPower); // 1단 점프
-            _rigidbody.AddForce(Vector3.up*playerJumpPower, ForceMode2D.Impulse);
+            // _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, playerJumpPower); // 1단 점프
+            _rigidbody.AddForce(Vector3.up * playerJumpPower, ForceMode2D.Impulse);
         }
 
         else if (jumpCount == 1)
@@ -136,19 +137,19 @@ public class Player_gyutae : MonoBehaviour
 
     bool CheckGround()
     {
-        float rayLength = 1f; // 레이저 길이 증가
+        float rayLength = 2.5f; // 레이저 길이 증가
         LayerMask groundLayer = LayerMask.GetMask("Ground"); // 바닥 그라운드 레이어
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, rayLength, groundLayer);
-
-        if (transform.position.y < lastPosition_Y)
+        Debug.DrawRay(transform.position, Vector2.down * rayLength, Color.red);
+        if (hit != null)
         {
-            if(hit!=null)
+            if (transform.position.y <= lastPosition_Y)
             {
                 animator.SetBool("IsJump", false);
                 lastPosition_Y = transform.position.y;
                 // Physics2D.Raycast 물리충돌을 감지하는 레이저 발사 , 플레이어 위치에서 레이저 발사
                 // Vector2.down 아래 방향으로 0.3f 만큼의 길이를 발사. 바닥이 있는지 검사
-                Debug.DrawRay(transform.position, Vector2.down * rayLength, Color.red);
+
             }
         }
         return hit.collider != null; // 바닥이 감지되면 점프 초기화
