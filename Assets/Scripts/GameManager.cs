@@ -6,11 +6,11 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-   public static GameManager Instance;
+    public static GameManager Instance;
 
     private void Awake() // 싱글톤
     {
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = this;
             DontDestroyOnLoad(gameObject); // 게임매니저는 하나만 존재하고 씬 변경시 파괴되서는 안됨
@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
         else
         {
             Debug.LogWarning("씬에 두개 이상의 게임 매니저가 존재합니다");
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
     }
 
@@ -26,8 +26,8 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene("SampleScene_jaehyeon");
 
-        Destroy(gameObject );
-        Instance = null;
+        //Destroy(gameObject);
+        //Instance = null;
     }
 
     public void QuitGame()
