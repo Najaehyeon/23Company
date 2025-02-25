@@ -10,7 +10,8 @@ public class ScoreItem : Item
         Sign,    // 10점 아이템
         Bottle,  // 20점 아이템
         Coin,    // 30점 아이템
-        Chest    // 40점 아이템
+        Chest,   // 40점 아이템
+        Bone     // 50점 아이템
     }
     
     [SerializeField] private ItemType itemType;   // 아이템 종류
@@ -32,6 +33,9 @@ public class ScoreItem : Item
                 break;
             case ItemType.Chest:
                 scoreAmount = 40;
+                break;
+            case ItemType.Bone:
+                scoreAmount = 50;
                 break;
         }
     }
