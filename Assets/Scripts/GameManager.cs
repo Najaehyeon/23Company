@@ -25,6 +25,9 @@ public class GameManager : MonoBehaviour
     public void GameStart() // 싱글톤으로 관리되는 게임 매니저에서 해당 메서드를 통해 씬을 경유하게 되면 기존 오브젝트를 파괴받지 않고 로드 할 수 있다
     {
         SceneManager.LoadScene("SampleScene_jaehyeon");
+
+        Destroy(gameObject );
+        Instance = null;
     }
 
     public void QuitGame()
