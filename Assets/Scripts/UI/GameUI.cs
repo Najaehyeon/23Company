@@ -22,7 +22,7 @@ public class GameUI : MonoBehaviour
 
     private void Update()
     {
-        scoreText.text = ItemManager.Instance.totalScore.ToString(); // 점수 가져와서 텍스트로 보여주기
+        //scoreText.text = ItemManager.Instance.totalScore.ToString(); // 점수 가져와서 텍스트로 보여주기
     }
 
     public void ActivePausePanel() // Pause할 때 PausePanel 뜨게 하는 메서드
