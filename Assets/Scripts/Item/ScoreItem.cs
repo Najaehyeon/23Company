@@ -7,14 +7,14 @@ public class ScoreItem : Item
 {
     public enum ItemType
     {
-        Sign,    // 1점 아이템
-        Bottle,  // 2점 아이템
-        Coin,    // 3점 아이템
-        Chest    // 4점 아이템
+        Sign,    // 10점 아이템
+        Bottle,  // 20점 아이템
+        Coin,    // 30점 아이템
+        Chest    // 40점 아이템
     }
     
     [SerializeField] private ItemType itemType;   // 아이템 종류
-    [SerializeField] private int scoreAmount;     // 아이템 점수 값
+    private int scoreAmount;     // 아이템 점수 값
 
     public void Start()
     {
@@ -22,24 +22,24 @@ public class ScoreItem : Item
         switch (itemType)
         {
             case ItemType.Sign:
-                scoreAmount = 1;
+                scoreAmount = 10;
                 break;
             case ItemType.Bottle:
-                scoreAmount = 2;
+                scoreAmount = 20;
                 break;
             case ItemType.Coin:
-                scoreAmount = 3;
+                scoreAmount = 30;
                 break;
             case ItemType.Chest:
-                scoreAmount = 4;
+                scoreAmount = 40;
                 break;
         }
     }
     
     // 아이템 획득 시 점수를 추가
-    protected override void OnCollect()
+    protected override void OnCollect(Player player)
     {
-        base.OnCollect(); // 아이템 제거 (부모 클래스의 OnCollect 실행)
+        base.OnCollect(player); // 아이템 제거 (부모 클래스의 OnCollect 실행)
         ItemManager.Instance.AddScore(scoreAmount); // 점수 추가
     }
 }
