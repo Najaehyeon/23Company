@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/SampleScene_gyutae.unity
+    guid: 637d71ddcd2aa994d8ec688d85c1f071
   m_configObjects: {}

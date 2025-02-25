@@ -16,7 +16,7 @@ public class Player_gyutae : MonoBehaviour
     public bool slide; // 슬라이드 작동
     private bool ground;
     private int jumpCount = 0;
-
+    float lastPosition_Y = 0f;
     bool isRun = false; // 점프유무 체크 요소 // 기본행동
 
     // Start is called before the first frame update
@@ -113,6 +113,7 @@ public class Player_gyutae : MonoBehaviour
 
     void Jump()
     {
+        animator.SetBool("IsJump", true);
         if (jumpCount == 0)
         {
             _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, playerJumpPower); // 1단 점프
@@ -128,15 +129,30 @@ public class Player_gyutae : MonoBehaviour
         animator.SetBool("IsSlide", isSlide); // 애니메이션 설정
     }
 
+
+
     bool CheckGround()
     {
-        float rayLength = 2f; // 레이저 길이 증가
+        float rayLength = 1f; // 레이저 길이 증가
         LayerMask groundLayer = LayerMask.GetMask("Ground"); // 바닥 그라운드 레이어
-
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, rayLength, groundLayer);
-        // Physics2D.Raycast 물리충돌을 감지하는 레이저 발사 , 플레이어 위치에서 레이저 발사
-        // Vector2.down 아래 방향으로 0.3f 만큼의 길이를 발사. 바닥이 있는지 검사
-        Debug.DrawRay(transform.position, Vector2.down * rayLength, Color.red);
+
+        if (transform.position.y < lastPosition_Y)
+        {
+            if(hit!=null)
+            {
+                animator.SetBool("IsJump", false);
+                lastPosition_Y = transform.position.y;
+                // Physics2D.Raycast 물리충돌을 감지하는 레이저 발사 , 플레이어 위치에서 레이저 발사
+                // Vector2.down 아래 방향으로 0.3f 만큼의 길이를 발사. 바닥이 있는지 검사
+                Debug.DrawRay(transform.position, Vector2.down * rayLength, Color.red);
+            }
+        }
+
         return hit.collider != null; // 바닥이 감지되면 점프 초기화
+
+
+
+
     }
 }
