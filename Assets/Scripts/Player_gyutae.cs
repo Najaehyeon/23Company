@@ -9,7 +9,7 @@ public class Player_gyutae : MonoBehaviour
     Rigidbody2D _rigidbody;
 
 
-    public float playerJumpPower = 500f; // 점프하는 힘
+    public float playerJumpPower = 10f; // 점프하는 힘
     public float forwardSpeed = 5f; // 전진 속도
     public bool isDead = false; // 생사여부 확인
     float deathCooldown = 0f; // 죽는 모션 딜레이
@@ -57,6 +57,7 @@ public class Player_gyutae : MonoBehaviour
         {
             Slide(false);
         }
+
 
         if (isDead)
         {
@@ -117,12 +118,12 @@ public class Player_gyutae : MonoBehaviour
         if (jumpCount == 0)
         {
            // _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, playerJumpPower); // 1단 점프
-            _rigidbody.AddForce(Vector3.up*playerJumpPower);
+            _rigidbody.AddForce(Vector3.up*playerJumpPower, ForceMode2D.Impulse);
         }
 
         else if (jumpCount == 1)
         {
-            _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, playerJumpPower * 2f); // 2단 점프 힘 증가
+            _rigidbody.AddForce(Vector3.up * playerJumpPower, ForceMode2D.Impulse); // 2단 점프 힘 증가
         }
     }
     private void Slide(bool isSlide)
@@ -150,11 +151,6 @@ public class Player_gyutae : MonoBehaviour
                 Debug.DrawRay(transform.position, Vector2.down * rayLength, Color.red);
             }
         }
-
         return hit.collider != null; // 바닥이 감지되면 점프 초기화
-
-
-
-
     }
 }
