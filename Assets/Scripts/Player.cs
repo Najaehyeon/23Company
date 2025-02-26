@@ -140,6 +140,19 @@ public class Player : MonoBehaviour
             jumpCount = 0;   // 점프 횟수 초기화
             return;          // 죽지 않도록 예외 처리
         }
+        else if (collision.gameObject.CompareTag("Obstacle"))
+        {
+            Debug.Log("체력감소");
+        }
+
+        else if (collision.gameObject.CompareTag("ScoreItem"))
+        {
+            Debug.Log("점수증가");
+        }
+        else if (collision.gameObject.CompareTag("EffectItem"))
+        {
+            Debug.Log("속도증가");
+        }
         //isDead = true;
         //deathCooldown = 1f;
         //animator.SetInteger("IsDie", 1); // 애니메이터에 "IsDie"라는 파라미터의 값을 1로 설정(블럭연결)
