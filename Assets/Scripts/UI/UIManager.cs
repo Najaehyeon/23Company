@@ -8,6 +8,7 @@ public class UIManager : MonoBehaviour
     public void Restart() // 게임 다시 시작하는 메서드 ==> 게임 오버 패널에서도 사용
     {
         SceneManager.LoadScene("GameScene");
+        ItemManager.Instance.totalScore = 0;
         Time.timeScale = 1.0f;
     }
 
