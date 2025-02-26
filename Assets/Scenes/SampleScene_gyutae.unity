@@ -1978,6 +1978,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 802185251492940329, guid: 25562d3124debd449b4fde268f84237e, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 802185251492940329, guid: 25562d3124debd449b4fde268f84237e, type: 3}
       propertyPath: m_TagString
       value: Ground
       objectReference: {fileID: 0}
