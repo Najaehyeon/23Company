@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor.Tilemaps;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class Player : MonoBehaviour
 {
     Animator animator; // 유니티에서 가져오기
     Rigidbody2D _rigidbody;
-
+    AnimationHandler animationHandler;
+    SpriteRenderer spriteRenderer;
+    Coroutine coroutine;
 
     public float playerJumpPower = 15f; // 점프하는 힘
     public float forwardSpeed = 0f; // 전진 속도
@@ -19,6 +22,7 @@ public class Player : MonoBehaviour
     public bool isInvincible = false;
     public float invincibleDuration = 1f;
     private float lastScorePosition = 0f;  // 마지막으로 점수를 얻은 위치
+    private float HitTime = 1f;
 
     public bool isDead = false; // 생사여부 확인
     float deathCooldown = 0f; // 죽는 모션 딜레이
@@ -47,6 +51,11 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
+        init();
+    }
+
+    public void init()
+    {
         if (_instance == null)
         {
             _instance = this;
@@ -65,13 +74,21 @@ public class Player : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody2D>(); // 컴포넌트가 있는지 탐색후 반환
         itemManager = ItemManager.Instance;
         gameUI = FindAnyObjectByType<GameUI>();
+        animationHandler = FindObjectOfType<AnimationHandler>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+
         if (animator == null)
             Debug.Log("ani error");
 
         if (_rigidbody == null)
             Debug.Log("rigid error");
 
+        if (spriteRenderer == null)
+        {
+            Debug.LogError("SpriteRenderer가 없습니다!");
+        }
 
+        //spriteRenderer.color = new Color(1f, 0f, 0f, 0.4f); // 색상 변경
     }
 
     // Update is called once per frame
@@ -81,12 +98,18 @@ public class Player : MonoBehaviour
 
         if (currentHealth <= 0)
         {
-            //Die 애니메이션 
-            //Die 시 GameOverPanel 띄우기
-            //Die 시 게임 시작 멈춤 
-
             Time.timeScale = 0f;
+            //Die 애니메이션 
+            //최고점수 기록 
+            float bestscore = PlayerPrefs.GetInt("highscore");
+            int currentscore = itemManager.totalScore;
+            if (bestscore < currentscore)
+            {
+                PlayerPrefs.SetInt("highscore", itemManager.totalScore);//데이터 저장
+            }
+
             gameUI.ActiveGameOverUI();
+            //currentHealth = maxHealth;
         }
     }
 
@@ -134,8 +157,20 @@ public class Player : MonoBehaviour
             {
                 // 애니메이션 실행
                 Debug.Log("체력감소");
+                //if (collision.gameObject.name.Contains("Down"))
+                //{
+                //    animationHandler.Hit();
+                //}
+                //else
+                //{
+                //    animationHandler.JumpHit();
+                //}
                 Heal(ObstacleDamage); //체력감소
-                StartCoroutine(InvincibleRoutine()); // 무적
+                if (coroutine != null)
+                {
+                    StopCoroutine(coroutine);
+                }
+                coroutine = StartCoroutine(InvincibleRoutine()); // 무적
             }
         }
 
@@ -148,12 +183,16 @@ public class Player : MonoBehaviour
         }
     }
 
+
+
     public IEnumerator InvincibleRoutine()
     {
         //무적 시작 
+        spriteRenderer.color = new Color(255f, 0f, 0f, 30f); // 색상 변경
         isInvincible = true;
         yield return new WaitForSeconds(invincibleDuration);
         isInvincible = false;
+        spriteRenderer.color = Color.white;
     }
 
     public void Heal(int amount)    // 플레이어 HP 회복
@@ -182,6 +221,7 @@ public class Player : MonoBehaviour
 
     public void TakeDamage(int amount)
     {
+        animationHandler.Hit();
         currentHealth -= amount;  // 체력 감소
         if (currentHealth <= 0)
         {
@@ -310,7 +350,7 @@ public class Player : MonoBehaviour
         else // 죽지 않은 상태 
         {
             //if ((Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)) && jumpCount < 2)
-            if ((Input.GetKeyDown(KeyCode.Space) ) && jumpCount < 2)
+            if ((Input.GetKeyDown(KeyCode.Space)) && jumpCount < 2)
             {
                 isRun = true;
             }

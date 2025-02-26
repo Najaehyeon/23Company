@@ -5,16 +5,20 @@ using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
-    public void Restart() // °ÔÀÓ ´Ù½Ã ½ÃÀÛÇÏ´Â ¸Þ¼­µå ==> °ÔÀÓ ¿À¹ö ÆÐ³Î¿¡¼­µµ »ç¿ë
+    public void Restart() // ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½ ==> ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ð³Î¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
     {
         SceneManager.LoadScene("GameScene");
-        ItemManager.Instance.totalScore = 0;
+        Player.Instance.init();
         Time.timeScale = 1.0f;
+        ItemManager.Instance.totalScore = 0;
+
     }
 
-    public void Home() // ½ºÅ¸Æ® ¾ÀÀ¸·Î µ¹¾Æ°¡´Â ¸Þ¼­µå => °ÔÀÓ ¿À¹ö ÆÐ³Î¿¡¼­µµ »ç¿ë
+    public void Home() // ï¿½ï¿½Å¸Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Æ°ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½ => ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ð³Î¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
     {
-        SceneManager.LoadScene("StartScene");
+        Player.Instance.init();
         Time.timeScale = 1.0f;
+        
+        SceneManager.LoadScene("StartScene");
     }
 }

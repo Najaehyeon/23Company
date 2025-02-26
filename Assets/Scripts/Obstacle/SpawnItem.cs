@@ -32,7 +32,7 @@ public class SpawnItem : MonoBehaviour
         //이것의 이름은 itme 이름이지 
         if (gameObject.transform.parent.name.Contains("Down"))
         {
-            _position = gameObject.transform.parent.transform.position+new Vector3(0, 3.8f); 
+            _position = gameObject.transform.parent.transform.position+new Vector3(0, 5.0f); 
             
         }
         else if (gameObject.transform.parent.name.Contains("Up"))
