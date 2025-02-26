@@ -12,9 +12,9 @@ public class Player_gyutae : MonoBehaviour
 
     public CapsuleCollider2D capsuleCollider2D; // 캡슐 콜라이더2d 참조
     private Vector2 normalcolliderSize; // 기본크기 저장
-    private Vector2 slideColliderSize = new Vector2(3f, 3f); // 슬라이드시 사이즈
+    private Vector2 slideColliderSize = new Vector2(3f, 2.8f); // 슬라이드시 사이즈
     private Vector2 normalcolliderOffset; // 기본 오프셋 저장
-    private Vector2 slideColliderOffset = new Vector2(0f, -2f); // 슬아이드시 콜라이더 위치 이동
+    private Vector2 slideColliderOffset = new Vector2(0f, -2.2f); // 슬라이드시 콜라이더 위치 이동
 
     public float playerJumpPower = 10f; // 점프하는 힘
     public float forwardSpeed = 5f; // 전진 속도
