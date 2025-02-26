@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3205354940795792167}
   m_Layer: 0
   m_Name: Item_01
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -47,5 +47,9 @@ MonoBehaviour:
   itemPrefabs:
   - {fileID: 7692242164247113669, guid: bdf1d0854a54247caac7fef19c0ba699, type: 3}
   - {fileID: 7692242164247113669, guid: d3ccb20f189ca4b7fa0daec90e53f5f1, type: 3}
+  - {fileID: 7692242164247113669, guid: 80d45493b38464f82810b136d2884138, type: 3}
+  - {fileID: 7520653970607263515, guid: b113b291c10be4b7294a1356c6934156, type: 3}
   - {fileID: 3357454298474382426, guid: 0b6a84496c51a47dab91c88c497b5e8e, type: 3}
   - {fileID: 3357454298474382426, guid: c56b38bf68b4e47c0b8479c7f474116f, type: 3}
+  - {fileID: 3357454298474382426, guid: 50f290c8939994add8e6571095fc702f, type: 3}
+  - {fileID: 7520653970607263515, guid: 288ef013e7548416f9124fae04665636, type: 3}
