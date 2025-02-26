@@ -1713,6 +1713,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4067591732249022557, guid: c69380dadb563c04897df8769274fb49, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3729,7 +3733,7 @@ MonoBehaviour:
   - {fileID: 4862829755283422270, guid: cc54152cff6551b4ca19840ccad4ddd3, type: 3}
   - {fileID: 4862829755283422270, guid: ef4c38cda4817d44d9a61573f67f0ee4, type: 3}
   - {fileID: 4862829755283422270, guid: b3147b49c62b24344b0f95d25e2c66f5, type: 3}
-  - {fileID: 2261852584491269664, guid: 7eb2978cd93b6ba4292ab3d8d5b7fb8c, type: 3}
+  - {fileID: 2261852584491269664, guid: c69380dadb563c04897df8769274fb49, type: 3}
   - {fileID: 2261852584491269664, guid: 956ec90860eeb63498ee0d0686fcbfc6, type: 3}
   - {fileID: 2261852584491269664, guid: 5924c51a5d2f18c4ab5d7a16bda66a60, type: 3}
   - {fileID: 1829279888011618388, guid: b3e261f42d8c79e45b3c214f8aaef0e7, type: 3}

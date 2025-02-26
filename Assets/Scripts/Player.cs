@@ -81,7 +81,11 @@ public class Player : MonoBehaviour
         if (currentHealth <= 0)
         {
             //Die 애니메이션 
-            //Die 시 창 
+            //Die 시 GameOverPanel 띄우기
+            //Die 시 게임 시작 멈춤 
+
+            Time.timeScale = 0f;
+
         }
     }
 
@@ -114,19 +118,6 @@ public class Player : MonoBehaviour
             ground = true;   // 바닥 감지
             jumpCount = 0;   // 점프 횟수 초기화
             return;          // 죽지 않도록 예외 처리
-        }
-        else if (collision.gameObject.CompareTag("Obstacle"))
-        {
-            Debug.Log("체력감소");
-        }
-
-        else if (collision.gameObject.CompareTag("ScoreItem"))
-        {
-            Debug.Log("점수증가");
-        }
-        else if (collision.gameObject.CompareTag("EffectItem"))
-        {
-            Debug.Log("속도증가");
         }
         //isDead = true;
         //deathCooldown = 1f;
