@@ -144,7 +144,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8280432903553569031, guid: c6bd6c28f82f1184eb60a6526b5d85ce, type: 3}
       propertyPath: m_Name
-      value: Obstacle_down_child (1)
+      value: Obstacle_00_Down_child
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -206,7 +206,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8280432903553569031, guid: c6bd6c28f82f1184eb60a6526b5d85ce, type: 3}
       propertyPath: m_Name
-      value: Obstacle_down_child
+      value: Obstacle_00_Down_child
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

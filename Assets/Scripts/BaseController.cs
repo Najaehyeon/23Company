@@ -21,6 +21,6 @@ public class BaseController : MonoBehaviour
         direction = direction * 5;
 
         _rigidbody.velocity = direction;
-        animationHandler.Jump(direction);
+        //animationHandler.Jump(direction);
     }
 }
