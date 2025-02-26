@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     Rigidbody2D _rigidbody;
     AnimationHandler animationHandler;
     SpriteRenderer spriteRenderer;
+    Coroutine coroutine;
 
     public float playerJumpPower = 15f; // 점프하는 힘
     public float forwardSpeed = 0f; // 전진 속도
@@ -86,6 +87,8 @@ public class Player : MonoBehaviour
         {
             Debug.LogError("SpriteRenderer가 없습니다!");
         }
+
+        //spriteRenderer.color = new Color(1f, 0f, 0f, 0.4f); // 색상 변경
     }
 
     // Update is called once per frame
@@ -163,7 +166,11 @@ public class Player : MonoBehaviour
                 //    animationHandler.JumpHit();
                 //}
                 Heal(ObstacleDamage); //체력감소
-                StartCoroutine(InvincibleRoutine()); // 무적
+                if (coroutine != null)
+                {
+                    StopCoroutine(coroutine);
+                }
+                coroutine = StartCoroutine(InvincibleRoutine()); // 무적
             }
         }
 
@@ -181,11 +188,11 @@ public class Player : MonoBehaviour
     public IEnumerator InvincibleRoutine()
     {
         //무적 시작 
-        spriteRenderer.color = new Color(1f, 0f, 0f,0.4f); // 색상 변경
+        spriteRenderer.color = new Color(255f, 0f, 0f, 100f); // 색상 변경
         isInvincible = true;
         yield return new WaitForSeconds(invincibleDuration);
         isInvincible = false;
-        spriteRenderer.color =Color.white;
+        spriteRenderer.color = Color.white;
     }
 
     public void Heal(int amount)    // 플레이어 HP 회복
