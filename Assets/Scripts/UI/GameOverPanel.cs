@@ -11,6 +11,7 @@ public class GameOverPanel : UIManager
     private void Update()
     {
         currentScoreTxt.text = ItemManager.Instance.totalScore.ToString(); // 현재 점수 띄우기
+        bestScoreTxt.text = PlayerPrefs.GetInt("highscore").ToString();
         // 최고 점수도 띄워야함 
     }
 }

@@ -8,21 +8,24 @@ public class GameUI : MonoBehaviour
     // 체력 슬라이드 구현, 점수 업데이트
 
 
-    Slider hpSlider;
+    Slider hpSlider ; //0~100
     Text scoreText;
 
     public GameObject pausePanel;
     public GameObject gameOverPanel;
+    Player player;
 
     private void Awake()
     {
         scoreText = GetComponentInChildren<Text>();
         hpSlider = GetComponentInChildren<Slider>();
+        player =FindObjectOfType<Player>();
     }
 
     private void Update()
     {
-        //scoreText.text = ItemManager.Instance.totalScore.ToString(); // 점수 가져와서 텍스트로 보여주기
+        scoreText.text = ItemManager.Instance.totalScore.ToString(); // 점수 가져와서 텍스트로 보여주기
+        hpSlider.value = player.currentHealth;
     }
 
     public void ActivePausePanel() // Pause할 때 PausePanel 뜨게 하는 메서드

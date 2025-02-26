@@ -10,7 +10,8 @@ public class MenuButtons : MonoBehaviour
 
     public void StartGame() // 게임 시작 버튼 누를 때 실행되는 메서드
     {
-        SceneManager.LoadScene("SampleScene_jaehyeon");
+        SceneManager.LoadScene("GameScene");
+        ItemManager.Instance.totalScore = 0;
     }
 
     public void ActiveOption() // 옵션 버튼 누를 때 실행되는 메서드
