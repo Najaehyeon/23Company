@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     Animator animator; // 유니티에서 가져오기
     Rigidbody2D _rigidbody;
     AnimationHandler animationHandler;
+    SpriteRenderer spriteRenderer;
 
     public float playerJumpPower = 15f; // 점프하는 힘
     public float forwardSpeed = 0f; // 전진 속도
@@ -20,6 +21,7 @@ public class Player : MonoBehaviour
     public bool isInvincible = false;
     public float invincibleDuration = 1f;
     private float lastScorePosition = 0f;  // 마지막으로 점수를 얻은 위치
+    private float HitTime = 1f;
 
     public bool isDead = false; // 생사여부 확인
     float deathCooldown = 0f; // 죽는 모션 딜레이
@@ -72,6 +74,7 @@ public class Player : MonoBehaviour
         itemManager = ItemManager.Instance;
         gameUI = FindAnyObjectByType<GameUI>();
         animationHandler = FindObjectOfType<AnimationHandler>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
         if (animator == null)
             Debug.Log("ani error");
@@ -79,7 +82,10 @@ public class Player : MonoBehaviour
         if (_rigidbody == null)
             Debug.Log("rigid error");
 
-
+        if (spriteRenderer == null)
+        {
+            Debug.LogError("SpriteRenderer가 없습니다!");
+        }
     }
 
     // Update is called once per frame
@@ -148,7 +154,14 @@ public class Player : MonoBehaviour
             {
                 // 애니메이션 실행
                 Debug.Log("체력감소");
-
+                //if (collision.gameObject.name.Contains("Down"))
+                //{
+                //    animationHandler.Hit();
+                //}
+                //else
+                //{
+                //    animationHandler.JumpHit();
+                //}
                 Heal(ObstacleDamage); //체력감소
                 StartCoroutine(InvincibleRoutine()); // 무적
             }
@@ -163,12 +176,16 @@ public class Player : MonoBehaviour
         }
     }
 
+
+
     public IEnumerator InvincibleRoutine()
     {
         //무적 시작 
+        spriteRenderer.color = new Color(1f, 0f, 0f,0.4f); // 색상 변경
         isInvincible = true;
         yield return new WaitForSeconds(invincibleDuration);
         isInvincible = false;
+        spriteRenderer.color =Color.white;
     }
 
     public void Heal(int amount)    // 플레이어 HP 회복
@@ -197,6 +214,7 @@ public class Player : MonoBehaviour
 
     public void TakeDamage(int amount)
     {
+        animationHandler.Hit();
         currentHealth -= amount;  // 체력 감소
         if (currentHealth <= 0)
         {
