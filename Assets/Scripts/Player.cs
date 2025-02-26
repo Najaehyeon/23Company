@@ -188,7 +188,7 @@ public class Player : MonoBehaviour
     public IEnumerator InvincibleRoutine()
     {
         //무적 시작 
-        spriteRenderer.color = new Color(255f, 0f, 0f, 100f); // 색상 변경
+        spriteRenderer.color = new Color(255f, 0f, 0f, 30f); // 색상 변경
         isInvincible = true;
         yield return new WaitForSeconds(invincibleDuration);
         isInvincible = false;
