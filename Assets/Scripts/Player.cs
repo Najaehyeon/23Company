@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor.Tilemaps;
 using UnityEngine;
 
@@ -14,6 +15,9 @@ public class Player : MonoBehaviour
     public float forwardSpeed_before = 0f; // 전진 속도
     public float currentHealth = 0f;
     public float maxHealth = 100f;
+    public int ObstacleDamage = -10;
+    public bool isInvincible = false;
+    public float invincibleDuration = 1f;
 
 
     public bool isDead = false; // 생사여부 확인
@@ -27,8 +31,25 @@ public class Player : MonoBehaviour
 
     ItemManager itemManager;
 
+    private static Player _instance = null;
+    public static Player Instance
+    {
+        get
+        {
+            if (_instance == null)
+                Debug.LogError("SingletonExample 인스턴스가 없습니다!");
+
+            return _instance;
+
+        }
+    }
+
     private void Awake()
     {
+        if (_instance == null)
+        {
+            _instance = this;
+        }
         //플레이어 위치 초기화 
         gameObject.transform.position = new Vector3(0f, -4.8f);
 
@@ -154,10 +175,6 @@ public class Player : MonoBehaviour
             jumpCount = 0;   // 점프 횟수 초기화
             return;          // 죽지 않도록 예외 처리
         }
-
-
-
-
         //isDead = true;
         //deathCooldown = 1f;
         //animator.SetInteger("IsDie", 1); // 애니메이터에 "IsDie"라는 파라미터의 값을 1로 설정(블럭연결)
@@ -168,7 +185,13 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Obstacle"))
         {
-            Debug.Log("체력감소");
+            if (!isInvincible)
+            {
+                // 애니메이션 실행
+                Debug.Log("체력감소");
+                Heal(ObstacleDamage); //체력감소
+                StartCoroutine(InvincibleRoutine()); // 무적
+            }
         }
 
         else if (collision.gameObject.CompareTag("ScoreItem"))
@@ -183,7 +206,15 @@ public class Player : MonoBehaviour
 
         }
     }
-    //플레이어 클래스에 넣어주기
+
+    public IEnumerator InvincibleRoutine()
+    {
+        //무적 시작 
+        isInvincible = true;
+        yield return new WaitForSeconds(invincibleDuration);
+        isInvincible = false;
+    }
+
     public void Heal(int amount)    // 플레이어 HP 회복
     {
         currentHealth += amount;  // 체력 회복
@@ -194,7 +225,7 @@ public class Player : MonoBehaviour
         Debug.Log("체력추가");
     }
 
-    //플레이어 클래스에 넣어주기
+
     public void SpeedUp(float amount, float duration)   // 플레이어 속도 증가
     {
         forwardSpeed_before = forwardSpeed;
@@ -207,7 +238,7 @@ public class Player : MonoBehaviour
         forwardSpeed = forwardSpeed_before; // 원래 속도로 복귀(규태님 나중에 2f 대신 플레이어 기본 속도로 넣어주세여)
     }
 
-    //플레이어 클래스에 넣어주기
+
     public void TakeDamage(int amount)
     {
         currentHealth -= amount;  // 체력 감소
@@ -218,7 +249,7 @@ public class Player : MonoBehaviour
         Debug.Log("데미지");
     }
 
-    //플레이어 클래스에 넣어주기
+
     public IEnumerator TakePoisonDamage(int damage, int times, float interval)  // 일정 시간마다 HP 감소하는 코루틴
     {
         for (int i = 0; i < times; i++)
