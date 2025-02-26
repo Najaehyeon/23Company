@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor.Tilemaps;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class Player : MonoBehaviour
 {
     Animator animator; // 유니티에서 가져오기
     Rigidbody2D _rigidbody;
-
+    AnimationHandler animationHandler;
 
     public float playerJumpPower = 15f; // 점프하는 힘
     public float forwardSpeed = 0f; // 전진 속도
@@ -47,6 +48,11 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
+        init();
+    }
+
+    public void init()
+    {
         if (_instance == null)
         {
             _instance = this;
@@ -65,6 +71,8 @@ public class Player : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody2D>(); // 컴포넌트가 있는지 탐색후 반환
         itemManager = ItemManager.Instance;
         gameUI = FindAnyObjectByType<GameUI>();
+        animationHandler = FindObjectOfType<AnimationHandler>();
+
         if (animator == null)
             Debug.Log("ani error");
 
@@ -81,12 +89,18 @@ public class Player : MonoBehaviour
 
         if (currentHealth <= 0)
         {
-            //Die 애니메이션 
-            //Die 시 GameOverPanel 띄우기
-            //Die 시 게임 시작 멈춤 
-
             Time.timeScale = 0f;
+            //Die 애니메이션 
+            //최고점수 기록 
+            float bestscore = PlayerPrefs.GetInt("highscore");
+            int currentscore = itemManager.totalScore;
+            if (bestscore < currentscore)
+            {
+                PlayerPrefs.SetInt("highscore", itemManager.totalScore);//데이터 저장
+            }
+
             gameUI.ActiveGameOverUI();
+            //currentHealth = maxHealth;
         }
     }
 
@@ -134,6 +148,7 @@ public class Player : MonoBehaviour
             {
                 // 애니메이션 실행
                 Debug.Log("체력감소");
+
                 Heal(ObstacleDamage); //체력감소
                 StartCoroutine(InvincibleRoutine()); // 무적
             }
@@ -276,8 +291,8 @@ public class Player : MonoBehaviour
             jumpCount = 0; // 점프횟수 초기화
         }
 
-        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)) && jumpCount < 2)
-        //if ((Input.GetKeyDown(KeyCode.Space)) && jumpCount < 2)
+        //if ((Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)) && jumpCount < 2)
+        if ((Input.GetKeyDown(KeyCode.Space)) && jumpCount < 2)
         { // 2단 점프 제한
             Jump();
             jumpCount++;
@@ -285,8 +300,8 @@ public class Player : MonoBehaviour
             ground = false;
         }
 
-        if ((Input.GetKey(KeyCode.DownArrow) || Input.GetMouseButtonDown(1)) && ground)
-        //if ((Input.GetKey(KeyCode.DownArrow)) && ground)
+        //if ((Input.GetKey(KeyCode.DownArrow) || Input.GetMouseButtonDown(1)) && ground)
+        if ((Input.GetKey(KeyCode.DownArrow)) && ground)
         {
             Slide(true);
         }
@@ -309,8 +324,8 @@ public class Player : MonoBehaviour
         }
         else // 죽지 않은 상태 
         {
-            if ((Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)) && jumpCount < 2)
-            //if ((Input.GetKeyDown(KeyCode.Space) ) && jumpCount < 2)
+            //if ((Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)) && jumpCount < 2)
+            if ((Input.GetKeyDown(KeyCode.Space)) && jumpCount < 2)
             {
                 isRun = true;
             }
