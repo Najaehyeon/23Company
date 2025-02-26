@@ -25,10 +25,10 @@ public class AnimationHandler : MonoBehaviour
         animator.SetBool(IsSlide, true);
     }
 
-    public void InvincibilityEnd()//무적시간 종료
-    {
-        animator.SetBool(IsJump, false);
-        animator.SetBool(IsSlide, false);
-    }
+    //public void InvincibilityEnd()//무적시간 종료
+    //{
+    //    animator.SetBool(IsJump, false);
+    //    animator.SetBool(IsSlide, false);
+    //}
 
 }
