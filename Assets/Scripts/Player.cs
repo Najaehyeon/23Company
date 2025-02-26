@@ -27,6 +27,15 @@ public class Player : MonoBehaviour
 
     ItemManager itemManager;
 
+    private void Awake()
+    {
+        //플레이어 위치 초기화 
+        gameObject.transform.position = new Vector3(0f, -4.8f);
+
+        //체력 초기화 
+        currentHealth = maxHealth;
+    }
+
     // Start is called before the first frame update
     void Start()
     { // InChildren 을 붙여 하위 오브젝트들에게도 탐색 적용
@@ -40,11 +49,7 @@ public class Player : MonoBehaviour
         if (_rigidbody == null)
             Debug.Log("rigid error");
 
-        //플레이어 위치 초기화 
-        gameObject.transform.position = new Vector3(0f, -4.8f);
 
-        //체력 초기화 
-        currentHealth = maxHealth;
     }
 
     // Update is called once per frame
@@ -52,17 +57,23 @@ public class Player : MonoBehaviour
     {
         JumpCheck();
 
-        AddScore_position();
-    }
 
+    }
+    private float lastScorePosition = 0f;  // 마지막으로 점수를 얻은 위치
     private void AddScore_position()
     {
-        Position = gameObject.transform.position.x;
+        float currentPosition = gameObject.transform.position.x;
 
-        if (Position % 1 == 0)
+        // 현재 위치의 정수부분
+        int currentBlock = Mathf.FloorToInt(currentPosition);
+        // 마지막 점수 위치의 정수부분
+        int lastBlock = Mathf.FloorToInt(lastScorePosition);
+
+        // 새로운 블록을 지날 때마다 점수 추가
+        if (currentBlock > lastBlock)
         {
-            itemManager.AddScore(1);
-
+            itemManager.AddScore(currentBlock - lastBlock);
+            lastScorePosition = currentPosition;
         }
     }
 
@@ -115,6 +126,7 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate() // 물리 연산이 필요할 때 일정한 간격으로 호출
     {
+
         if (isDead) return; // isDead 가 true 라면 작업하지 않고 반환
 
         Vector3 velocity = _rigidbody.velocity; // _rigidbody 의 가속도 가져오기
@@ -128,6 +140,8 @@ public class Player : MonoBehaviour
         }
 
         _rigidbody.velocity = velocity; // 다시 넣어줘야함
+
+        AddScore_position();
     }
 
     private void OnCollisionEnter2D(Collision2D collision) // 충돌에 대한 이벤트 발생시 실행
@@ -140,12 +154,35 @@ public class Player : MonoBehaviour
             jumpCount = 0;   // 점프 횟수 초기화
             return;          // 죽지 않도록 예외 처리
         }
+
+
+
+
         //isDead = true;
         //deathCooldown = 1f;
         //animator.SetInteger("IsDie", 1); // 애니메이터에 "IsDie"라는 파라미터의 값을 1로 설정(블럭연결)
 
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Obstacle"))
+        {
+            Debug.Log("체력감소");
+        }
+
+        else if (collision.gameObject.CompareTag("ScoreItem"))
+        {
+            Debug.Log("점수증가");
+        }
+        else if (collision.gameObject.CompareTag("EffectItem"))
+        {
+        }
+        else
+        {
+
+        }
+    }
     //플레이어 클래스에 넣어주기
     public void Heal(int amount)    // 플레이어 HP 회복
     {
