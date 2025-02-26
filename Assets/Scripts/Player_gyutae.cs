@@ -10,7 +10,9 @@ public class Player_gyutae : MonoBehaviour
     Animator animator; // 유니티에서 가져오기
     Rigidbody2D _rigidbody;
 
-
+    public CapsuleCollider2D capsuleCollider2D; // 캡슐 콜라이더2d 참조
+    private Vector2 normalcolliderSize; // 기본크기 저장
+    private Vector2 slideColliderSize = new Vector2(3f, 3f); // 슬라이드시 사이즈
     public float playerJumpPower = 10f; // 점프하는 힘
     public float forwardSpeed = 5f; // 전진 속도
     public bool isDead = false; // 생사여부 확인
@@ -21,11 +23,15 @@ public class Player_gyutae : MonoBehaviour
     float lastPosition_Y = 0f;
     bool isRun = false; // 점프유무 체크 요소 // 기본행동
 
+
+
     // Start is called before the first frame update
     void Start()
     { // InChildren 을 붙여 하위 오브젝트들에게도 탐색 적용
         animator = GetComponentInChildren<Animator>(); // 작성중인 스크립트가 부착된 오브젝트에게 내가 찾고있는 
         _rigidbody = GetComponent<Rigidbody2D>(); // 컴포넌트가 있는지 탐색후 반환
+        capsuleCollider2D = GetComponent<CapsuleCollider2D>();
+        normalcolliderSize = capsuleCollider2D.size;
 
         if (animator == null)
             Debug.Log("ani error");
@@ -39,6 +45,8 @@ public class Player_gyutae : MonoBehaviour
     {
         ground = CheckGround();
 
+        lastPosition_Y = transform.position.y;
+
         if (ground) // 바닥에 있을때
         {
             jumpCount = 0; // 점프횟수 초기화
@@ -51,13 +59,15 @@ public class Player_gyutae : MonoBehaviour
             ground = false;
         }
 
-        if (ground && (Input.GetKey(KeyCode.DownArrow) || Input.GetMouseButton(1)))
+        if (ground && Input.GetKey(KeyCode.DownArrow)) // 바닥에 있을떄만 슬라이드 가능
         {
             Slide(true);
+            Debug.Log("슬라이딩 시작");
         }
-        if (!Input.GetKey(KeyCode.DownArrow) || Input.GetMouseButtonUp(1))
+        else if (Input.GetKeyUp(KeyCode.DownArrow))
         {
             Slide(false);
+            Debug.Log("슬라이딩 끝");
         }
 
 
@@ -130,13 +140,24 @@ public class Player_gyutae : MonoBehaviour
     }
     void Slide(bool isSlide)
     {
-        slide = isSlide;// 슬라이드 실행
-        animator.SetBool("IsSlide", isSlide); 
+        if (slide == isSlide) return; // 현재 상태와 동일하면 무시
 
-        if (!isSlide)
+        slide = isSlide;// 슬라이드 실행
+        animator.SetBool("IsSlide", isSlide);
+        Debug.Log("애니메이터 IsSlide 작동: " + isSlide);
+
+        if (isSlide)
+        {
+            capsuleCollider2D.size = slideColliderSize; // 슬라이드 크기로 변경
+            Debug.Log("슬라이드 크기 적용됨: " + slideColliderSize);
+        }
+        else
         {
             animator.SetBool("IsSlide", false);
             slide = false; // 슬라이드가 끝나면 런으로 돌아오기
+            capsuleCollider2D.size = normalcolliderSize; // 기본 크기로 복구
+            Debug.Log("슬라이드 종료, 콜라이더 원래 크기로 복구됨: " + normalcolliderSize);
+
         }
     }
     bool CheckGround()
@@ -147,16 +168,16 @@ public class Player_gyutae : MonoBehaviour
         // Physics2D.Raycast 물리충돌을 감지하는 레이저 발사 , 플레이어 위치에서 레이저 발사
         // Vector2.down 아래 방향으로 2.5f 만큼의 길이를 발사. 바닥이 있는지 검사
         Debug.DrawRay(transform.position, Vector2.down * rayLength, Color.red);
-        lastPosition_Y = transform.position.y;
-        if (hit.collider != null && transform.position.y <= lastPosition_Y) //땅에 닿고있고+내려가는중
+        
+        if (hit.collider != null) // 바닥에 충돌한 오브젝트가 있다면
         {
             animator.SetBool("IsJump", false);
-            return false; // 바닥이 감지되면 점프 초기화
+            return true; // 바닥이 감지되면 점프 초기화
         }
         else
         {
-            animator.SetBool("IsJump", true); // 공중에 있다면 트루
-            return true;
+            animator.SetBool("IsJump", true); // 공중에 있다면 
+            return false;
         }
     }
 }
