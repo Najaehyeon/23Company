@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class AnimationHandler : MonoBehaviour
 {
-    private static readonly int IsSlide = Animator.StringToHash("ISMove");
-    private static readonly int IsJump = Animator.StringToHash("ISJump"); 
+    private static readonly int IsSlide = Animator.StringToHash("IsSlide");
+    private static readonly int IsJump = Animator.StringToHash("IsJump");
+    private static readonly int IsSlideHit = Animator.StringToHash("IsSlideHit");
+    private static readonly int IsJumpHit = Animator.StringToHash("IsJumpHit");
+    private static readonly int IsHit = Animator.StringToHash("IsHit");
     // 문자를 해쉬를 사용하여 숫자열로 비교하는것이 용이
 
     protected Animator animator;
@@ -25,6 +28,20 @@ public class AnimationHandler : MonoBehaviour
         animator.SetBool(IsSlide, true);
     }
 
+    public void SlideHit()
+    {
+        animator.SetBool(IsSlideHit, true);
+    }
+
+    public void JumpHit()
+    {
+        animator.SetBool(IsJumpHit, true);
+    }
+
+    public void Hit()
+    {
+       animator.SetBool(IsHit, true);
+    }
     public void InvincibilityEnd()//무적시간 종료
     {
         animator.SetBool(IsJump, false);

@@ -40,6 +40,6 @@ public class ItemManager : MonoBehaviour
     public void AddScore(int score)
     {
         totalScore += score;
-        Debug.Log($"점수 추가됨: {score}, 현재 점수: {totalScore}");
+        //Debug.Log($"점수 추가됨: {score}, 현재 점수: {totalScore}");
     }
 }
