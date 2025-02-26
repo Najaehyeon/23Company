@@ -30,7 +30,6 @@ public class BGLopper : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D _collision)
     {
-        //Debug.Log("Triggerd: " + _collision.name);
         ///  backGround Loop
         if (_collision.CompareTag("BackGround"))
         {
@@ -38,7 +37,7 @@ public class BGLopper : MonoBehaviour
             Vector3 pos = _collision.transform.position;
 
             pos.x += widthOfBgObject * numBgCount;
-            //Debug.Log("Background Width: " + widthOfBgObject);
+            Debug.Log("Background Width: " + widthOfBgObject);
             _collision.transform.position = pos;
             return;
         }
