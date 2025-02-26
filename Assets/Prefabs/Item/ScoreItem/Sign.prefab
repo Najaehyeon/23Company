@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 3990226365755331758}
   - component: {fileID: 948611779908957770}
   - component: {fileID: 7495887435771157079}
-  - component: {fileID: 9177658003622707729}
   - component: {fileID: -1258635274863836861}
   m_Layer: 0
   m_Name: Sign
@@ -288,18 +287,6 @@ PolygonCollider2D:
       - {x: 0.22231159, y: 0.21110983}
       - {x: 0.22144991, y: 0.2119715}
   m_UseDelaunayMesh: 0
---- !u!114 &9177658003622707729
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7520653970607263515}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4994a00908804729b38e128c82f247b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &-1258635274863836861
 MonoBehaviour:
   m_ObjectHideFlags: 0
