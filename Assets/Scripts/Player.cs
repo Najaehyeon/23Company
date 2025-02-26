@@ -42,6 +42,9 @@ public class Player : MonoBehaviour
 
         //플레이어 위치 초기화 
         gameObject.transform.position = new Vector3(0f, -4.8f);
+
+        //체력 초기화 
+        currentHealth = maxHealth;
     }
 
     // Update is called once per frame
