@@ -10,7 +10,8 @@ public class EffectItem : Item
     {
         Chicken,    // HP 회복
         Fireball,   // 속도 증가
-        Poison      // HP 지속 감소
+        Poison,     // HP 지속 감소
+        HpPotion    // HP 회복
     }
 
     public ItemType itemType;   // 아이템 종류
@@ -39,8 +40,9 @@ public class EffectItem : Item
             case ItemType.Poison:
                 player.StartCoroutine(player.TakePoisonDamage(3, 5, 0.5f)); // 3 데미지, 5번 반복, 0.5초 간격
                 break;
+            case ItemType.HpPotion:
+                player.Heal(15);    // 체력 15 회복
+                break;
         }
     }
-
-
 }

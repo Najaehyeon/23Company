@@ -579,6 +579,73 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 402d9aee02e70d54ca286510fdc0b6b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerJumpPower: 15
+  forwardSpeed: 0
+  forwardSpeed_before: 0
+  currentHealth: 0
+  maxHealth: 100
+  ObstacleDamage: -10
+  isInvincible: 0
+  invincibleDuration: 1
+  isDead: 0
+  slide: 0
+--- !u!1001 &1046059841
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6687212013080814868, guid: 3f6f7ec731e7249c9b302ec78a6bc3ff, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -5.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6687212013080814868, guid: 3f6f7ec731e7249c9b302ec78a6bc3ff, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6687212013080814868, guid: 3f6f7ec731e7249c9b302ec78a6bc3ff, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6687212013080814868, guid: 3f6f7ec731e7249c9b302ec78a6bc3ff, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6687212013080814868, guid: 3f6f7ec731e7249c9b302ec78a6bc3ff, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6687212013080814868, guid: 3f6f7ec731e7249c9b302ec78a6bc3ff, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6687212013080814868, guid: 3f6f7ec731e7249c9b302ec78a6bc3ff, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6687212013080814868, guid: 3f6f7ec731e7249c9b302ec78a6bc3ff, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6687212013080814868, guid: 3f6f7ec731e7249c9b302ec78a6bc3ff, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6687212013080814868, guid: 3f6f7ec731e7249c9b302ec78a6bc3ff, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7692242164247113669, guid: 3f6f7ec731e7249c9b302ec78a6bc3ff, type: 3}
+      propertyPath: m_Name
+      value: HpPotion
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3f6f7ec731e7249c9b302ec78a6bc3ff, type: 3}
 --- !u!1 &1271467180
 GameObject:
   m_ObjectHideFlags: 0
@@ -902,3 +969,4 @@ SceneRoots:
   - {fileID: 238457216}
   - {fileID: 1865561348}
   - {fileID: 691299957711890665}
+  - {fileID: 1046059841}
