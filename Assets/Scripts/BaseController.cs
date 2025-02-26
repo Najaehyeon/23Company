@@ -16,11 +16,11 @@ public class BaseController : MonoBehaviour
         animationHandler = GetComponent<AnimationHandler>();
     }
 
-    private void Movment(Vector2 direction)
-    {
-        direction = direction * 5;
+    //private void Movment(Vector2 direction)
+    //{
+    //    direction = direction * 5;
 
-        _rigidbody.velocity = direction;
-        animationHandler.Jump(direction);
-    }
+    //    _rigidbody.velocity = direction;
+    //    animationHandler.Jump(direction);
+    //}
 }

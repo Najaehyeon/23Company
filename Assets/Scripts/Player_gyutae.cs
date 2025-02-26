@@ -42,18 +42,17 @@ public class Player_gyutae : MonoBehaviour
             jumpCount = 0; // 점프횟수 초기화
         }
 
-        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)) && jumpCount < 2)
+        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)) && jumpCount < 2 && !slide)
         { // 2단 점프 제한
             Jump();
             jumpCount++;
             ground = false;
         }
-
-        if ((Input.GetKey(KeyCode.DownArrow) || Input.GetMouseButtonDown(1)) && ground)
+        if (ground && (Input.GetKey(KeyCode.DownArrow) || Input.GetMouseButtonDown(1)))
         {
             Slide(true);
         }
-        else
+        if (Input.GetKeyUp(KeyCode.DownArrow) || Input.GetMouseButtonUp(1))
         {
             Slide(false);
         }
@@ -95,21 +94,38 @@ public class Player_gyutae : MonoBehaviour
         _rigidbody.velocity = velocity; // 다시 넣어줘야함
     }
 
-    private void OnCollisionEnter2D(Collision2D collision) // 충돌에 대한 이벤트 발생시 실행
-    {
-        if (isDead) return; // 이미 죽었으면 충돌 무시
+    //private void OnCollisionEnter2D(Collision2D collision) // 충돌에 대한 이벤트 발생시 실행
+    //{
+    //    if (isDead) return; // 이미 죽었으면 충돌 무시
 
-        if (collision.gameObject.CompareTag("Ground"))  // 땅과 충돌하면 죽지 않도록 예외 처리
-        {
-            ground = true;   // 바닥 감지
-            jumpCount = 0;   // 점프 횟수 초기화
-            return;          // 죽지 않도록 예외 처리
-        }
+    //    if (collision.gameObject.CompareTag("Ground"))  // 땅과 충돌하면 죽지 않도록 예외 처리
+    //    {
+    //        ground = true;   // 바닥 감지
+    //        jumpCount = 0;   // 점프 횟수 초기화
+    //        return;          // 죽지 않도록 예외 처리
+    //    }
 
-        isDead = true;
-        deathCooldown = 1f;
-        animator.SetInteger("IsDie", 1); // 애니메이터에 "IsDie"라는 파라미터의 값을 1로 설정(블럭연결)
+    //    isDead = true; // 그라운드가 아닌 오브젝트에 충돌하면 사망
+    //    deathCooldown = 1f;
+    //    animator.SetInteger("IsDie", 1); // 애니메이터에 "IsDie"라는 파라미터의 값을 1로 설정(블럭연결)
         
+    //}
+    private void OnCollisionEnter2D(Collision2D collision) // 충돌 발생시 실행
+    {
+        if (collision.gameObject.CompareTag("Ground")) // 땅과 충돌하면 죽지 않도록 예외 처리
+        {
+            ground = true; // 바닥과 닿았을때
+            animator.SetBool("IsJump", false); // 점프 애니매이션 해제
+            jumpCount = 0;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision) // 충돌이 끝났을때 실행
+    {
+        if (collision.gameObject.CompareTag("Ground")) // 바닥과 충돌이 끝났다면
+        {
+            ground = false; // 플레이어는 바닥에 있지 않다
+        }
     }
 
     void Jump()
@@ -126,29 +142,31 @@ public class Player_gyutae : MonoBehaviour
             _rigidbody.AddForce(Vector3.up * playerJumpPower, ForceMode2D.Impulse); // 2단 점프 힘 증가
         }
     }
-    private void Slide(bool isSlide)
+    void Slide(bool isSlide)
     {
-        slide = isSlide;
-        animator.SetBool("IsSlide", isSlide); // 애니메이션 설정
+        slide = isSlide;// 슬라이드 실행
+        animator.SetBool("IsSlide", true); 
+
+        if (!isSlide)
+        {
+            animator.SetBool("IsSlide", false);
+            slide = false; // 슬라이드가 끝나면 런으로 돌아오기
+        }
     }
-
-
-
     bool CheckGround()
     {
-        float rayLength = 1f; // 레이저 길이 증가
+        float rayLength = 2f; // 레이저 길이 증가
         LayerMask groundLayer = LayerMask.GetMask("Ground"); // 바닥 그라운드 레이어
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, rayLength, groundLayer);
-
+        // Physics2D.Raycast 물리충돌을 감지하는 레이저 발사 , 플레이어 위치에서 레이저 발사
+        // Vector2.down 아래 방향으로 1f 만큼의 길이를 발사. 바닥이 있는지 검사
+        Debug.DrawRay(transform.position, Vector2.down * rayLength, Color.red);
         if (transform.position.y < lastPosition_Y)
         {
             if(hit!=null)
             {
                 animator.SetBool("IsJump", false);
                 lastPosition_Y = transform.position.y;
-                // Physics2D.Raycast 물리충돌을 감지하는 레이저 발사 , 플레이어 위치에서 레이저 발사
-                // Vector2.down 아래 방향으로 0.3f 만큼의 길이를 발사. 바닥이 있는지 검사
-                Debug.DrawRay(transform.position, Vector2.down * rayLength, Color.red);
             }
         }
         return hit.collider != null; // 바닥이 감지되면 점프 초기화
