@@ -19,6 +19,12 @@ public class MenuButtons : MonoBehaviour
         optionPanel.SetActive(true);
     }
 
+    public void CloseOption()
+    {
+        optionPanel.SetActive(false);
+        playerImage.sortingOrder = 1;
+    }
+
     public void QuitGame() // Quit버튼 누를 때 실행되는 메서드
     {
         UnityEditor.EditorApplication.isPlaying = false;  // 에디터에서는 게임을 중지합니다.
