@@ -30,7 +30,6 @@ public class BGLopper : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D _collision)
     {
-        Debug.Log("Triggerd: " + _collision.name);
         ///  backGround Loop
         if (_collision.CompareTag("BackGround"))
         {

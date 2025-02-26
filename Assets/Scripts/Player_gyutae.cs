@@ -141,17 +141,23 @@ public class Player_gyutae : MonoBehaviour
         LayerMask groundLayer = LayerMask.GetMask("Ground"); // 바닥 그라운드 레이어
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, rayLength, groundLayer);
         Debug.DrawRay(transform.position, Vector2.down * rayLength, Color.red);
-        if (hit != null)
+        lastPosition_Y = transform.position.y;
+        if (hit.collider != null && transform.position.y <= lastPosition_Y) //땅에 닿고 있고 +내려가는중
         {
-            if (transform.position.y <= lastPosition_Y)
+            //if ()
             {
                 animator.SetBool("IsJump", false);
-                lastPosition_Y = transform.position.y;
                 // Physics2D.Raycast 물리충돌을 감지하는 레이저 발사 , 플레이어 위치에서 레이저 발사
                 // Vector2.down 아래 방향으로 0.3f 만큼의 길이를 발사. 바닥이 있는지 검사
-
+                return false; // 바닥이 감지되면 점프 초기화
             }
         }
-        return hit.collider != null; // 바닥이 감지되면 점프 초기화
+        else // 여기는 땅에 안닿고있고 올라가는중?
+        {
+            animator.SetBool("IsJump", true);
+            return true;
+        }
+
+        
     }
 }
