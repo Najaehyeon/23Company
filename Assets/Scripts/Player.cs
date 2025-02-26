@@ -18,7 +18,7 @@ public class Player : MonoBehaviour
     public int ObstacleDamage = -10;
     public bool isInvincible = false;
     public float invincibleDuration = 1f;
-
+    private float lastScorePosition = 0f;  // 마지막으로 점수를 얻은 위치
 
     public bool isDead = false; // 생사여부 확인
     float deathCooldown = 0f; // 죽는 모션 딜레이
@@ -78,70 +78,10 @@ public class Player : MonoBehaviour
     {
         JumpCheck();
 
-
-    }
-    private float lastScorePosition = 0f;  // 마지막으로 점수를 얻은 위치
-    private void AddScore_position()
-    {
-        float currentPosition = gameObject.transform.position.x;
-
-        // 현재 위치의 정수부분
-        int currentBlock = Mathf.FloorToInt(currentPosition);
-        // 마지막 점수 위치의 정수부분
-        int lastBlock = Mathf.FloorToInt(lastScorePosition);
-
-        // 새로운 블록을 지날 때마다 점수 추가
-        if (currentBlock > lastBlock)
+        if (currentHealth <= 0)
         {
-            itemManager.AddScore(currentBlock - lastBlock);
-            lastScorePosition = currentPosition;
-        }
-    }
-
-    private void JumpCheck()
-    {
-        ground = CheckGround();
-
-        if (ground) // 바닥에 있을때
-        {
-            jumpCount = 0; // 점프횟수 초기화
-        }
-
-        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)) && jumpCount < 2)
-        { // 2단 점프 제한
-            Jump();
-            jumpCount++;
-
-            ground = false;
-        }
-
-        if ((Input.GetKey(KeyCode.DownArrow) || Input.GetMouseButtonDown(1)) && ground)
-        {
-            Slide(true);
-        }
-        else
-        {
-            Slide(false);
-        }
-
-
-        if (isDead)
-        {
-            if (deathCooldown <= 0f) // 죽은경우 재시작
-            {
-
-            }
-            else
-            {
-                deathCooldown -= Time.deltaTime;
-            }
-        }
-        else // 죽지 않은 상태 
-        {
-            if ((Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)) && jumpCount < 2)
-            {
-                isRun = true;
-            }
+            //Die 애니메이션 
+            //Die 시 창 
         }
     }
 
@@ -201,10 +141,6 @@ public class Player : MonoBehaviour
         else if (collision.gameObject.CompareTag("EffectItem"))
         {
         }
-        else
-        {
-
-        }
     }
 
     public IEnumerator InvincibleRoutine()
@@ -222,7 +158,7 @@ public class Player : MonoBehaviour
         {
             currentHealth = maxHealth; // 최대 체력 초과 방지
         }
-        Debug.Log("체력추가");
+        Debug.Log($"{amount}");
     }
 
 
@@ -309,4 +245,68 @@ public class Player : MonoBehaviour
 
 
     }
+    private void AddScore_position()
+    {
+        float currentPosition = gameObject.transform.position.x;
+
+        // 현재 위치의 정수부분
+        int currentBlock = Mathf.FloorToInt(currentPosition);
+        // 마지막 점수 위치의 정수부분
+        int lastBlock = Mathf.FloorToInt(lastScorePosition);
+
+        // 새로운 블록을 지날 때마다 점수 추가
+        if (currentBlock > lastBlock)
+        {
+            itemManager.AddScore(currentBlock - lastBlock);
+            lastScorePosition = currentPosition;
+        }
+    }
+
+    private void JumpCheck()
+    {
+        ground = CheckGround();
+
+        if (ground) // 바닥에 있을때
+        {
+            jumpCount = 0; // 점프횟수 초기화
+        }
+
+        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)) && jumpCount < 2)
+        { // 2단 점프 제한
+            Jump();
+            jumpCount++;
+
+            ground = false;
+        }
+
+        if ((Input.GetKey(KeyCode.DownArrow) || Input.GetMouseButtonDown(1)) && ground)
+        {
+            Slide(true);
+        }
+        else
+        {
+            Slide(false);
+        }
+
+
+        if (isDead)
+        {
+            if (deathCooldown <= 0f) // 죽은경우 재시작
+            {
+
+            }
+            else
+            {
+                deathCooldown -= Time.deltaTime;
+            }
+        }
+        else // 죽지 않은 상태 
+        {
+            if ((Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)) && jumpCount < 2)
+            {
+                isRun = true;
+            }
+        }
+    }
+
 }

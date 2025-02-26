@@ -1081,6 +1081,9 @@ MonoBehaviour:
   forwardSpeed_before: 5
   currentHealth: 0
   maxHealth: 100
+  ObstacleDamage: -10
+  isInvincible: 0
+  invincibleDuration: 1
   isDead: 0
   slide: 0
 --- !u!70 &538323671

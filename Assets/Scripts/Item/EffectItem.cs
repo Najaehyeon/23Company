@@ -12,16 +12,19 @@ public class EffectItem : Item
         Fireball,   // 속도 증가
         Poison      // HP 지속 감소
     }
-    
+
     public ItemType itemType;   // 아이템 종류
-    
+
     // 아이템 획득 시 효과 적용 (Item 클래스의 OnCollect를 오버라이드)
     protected override void OnCollect(Player player)
     {
-        ApplyEffect(player);    // 플레이어에게 효과 적용
-        base.OnCollect(player); // 아이템 제거
+        if (!Player.Instance.isInvincible)
+        {
+            ApplyEffect(player);    // 플레이어에게 효과 적용
+            base.OnCollect(player); // 아이템 제거
+        }
     }
-    
+
     // 아이템 효과 적용
     private void ApplyEffect(Player player)
     {
@@ -38,6 +41,6 @@ public class EffectItem : Item
                 break;
         }
     }
-    
-    
+
+
 }
