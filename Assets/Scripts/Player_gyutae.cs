@@ -53,7 +53,7 @@ public class Player_gyutae : MonoBehaviour
             jumpCount = 0; // 점프횟수 초기화
         }
 
-        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)) && jumpCount < 1 && !slide)
+        if ((Input.GetKeyDown(KeyCode.Space)) && jumpCount < 1 && !slide)
         { // 2단 점프 제한
             Jump();
             jumpCount++;
@@ -83,7 +83,7 @@ public class Player_gyutae : MonoBehaviour
         }
         else // 죽지 않은 상태 
         {
-            if ((Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)) && jumpCount < 1)
+            if ((Input.GetKeyDown(KeyCode.Space)) && jumpCount < 1)
             {
                 isRun = true;
             }
