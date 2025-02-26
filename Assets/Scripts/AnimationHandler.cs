@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class AnimationHandler : MonoBehaviour
 {
-    private static readonly int IsSlide = Animator.StringToHash("ISMove");
-    private static readonly int IsJump = Animator.StringToHash("ISJump"); 
+    private static readonly int IsSlide = Animator.StringToHash("IsSlide");
+    private static readonly int IsJump = Animator.StringToHash("IsJump"); 
     // 문자를 해쉬를 사용하여 숫자열로 비교하는것이 용이
 
     protected Animator animator;

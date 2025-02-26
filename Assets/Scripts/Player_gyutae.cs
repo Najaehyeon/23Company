@@ -13,6 +13,9 @@ public class Player_gyutae : MonoBehaviour
     public CapsuleCollider2D capsuleCollider2D; // 캡슐 콜라이더2d 참조
     private Vector2 normalcolliderSize; // 기본크기 저장
     private Vector2 slideColliderSize = new Vector2(3f, 3f); // 슬라이드시 사이즈
+    private Vector2 normalcolliderOffset; // 기본 오프셋 저장
+    private Vector2 slideColliderOffset = new Vector2(0f, -2f); // 슬아이드시 콜라이더 위치 이동
+
     public float playerJumpPower = 10f; // 점프하는 힘
     public float forwardSpeed = 5f; // 전진 속도
     public bool isDead = false; // 생사여부 확인
@@ -20,7 +23,6 @@ public class Player_gyutae : MonoBehaviour
     public bool slide; // 슬라이드 작동
     private bool ground;
     private int jumpCount = 0;
-    float lastPosition_Y = 0f;
     bool isRun = false; // 점프유무 체크 요소 // 기본행동
 
 
@@ -32,6 +34,7 @@ public class Player_gyutae : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody2D>(); // 컴포넌트가 있는지 탐색후 반환
         capsuleCollider2D = GetComponent<CapsuleCollider2D>();
         normalcolliderSize = capsuleCollider2D.size;
+        normalcolliderOffset = capsuleCollider2D.offset;
 
         if (animator == null)
             Debug.Log("ani error");
@@ -45,29 +48,25 @@ public class Player_gyutae : MonoBehaviour
     {
         ground = CheckGround();
 
-        lastPosition_Y = transform.position.y;
-
         if (ground) // 바닥에 있을때
         {
             jumpCount = 0; // 점프횟수 초기화
         }
 
-        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)) && jumpCount < 2 && !slide)
+        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)) && jumpCount < 1 && !slide)
         { // 2단 점프 제한
             Jump();
             jumpCount++;
             ground = false;
         }
 
-        if (ground && Input.GetKey(KeyCode.DownArrow)) // 바닥에 있을떄만 슬라이드 가능
+        if (ground && Input.GetKey(KeyCode.LeftShift)) // 바닥에 있을때만 슬라이드 가능
         {
             Slide(true);
-            Debug.Log("슬라이딩 시작");
         }
-        else if (Input.GetKeyUp(KeyCode.DownArrow))
+        else if (Input.GetKeyUp(KeyCode.LeftShift))
         {
             Slide(false);
-            Debug.Log("슬라이딩 끝");
         }
 
 
@@ -84,7 +83,7 @@ public class Player_gyutae : MonoBehaviour
         }
         else // 죽지 않은 상태 
         {
-            if ((Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)) && jumpCount < 2)
+            if ((Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)) && jumpCount < 1)
             {
                 isRun = true;
             }
@@ -126,16 +125,17 @@ public class Player_gyutae : MonoBehaviour
 
     void Jump()
     {
-        animator.SetBool("IsJump", true);
+        if(slide)
+        {
+            Slide(false);
+            animator.SetBool("IsJump", true);
+            slide = false;
+        }
+
         if (jumpCount == 0)
         {
            // _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, playerJumpPower); // 1단 점프
             _rigidbody.AddForce(Vector3.up*playerJumpPower, ForceMode2D.Impulse);
-        }
-
-        else if (jumpCount == 1)
-        {
-            _rigidbody.AddForce(Vector3.up * playerJumpPower, ForceMode2D.Impulse); // 2단 점프 힘 증가
         }
     }
     void Slide(bool isSlide)
@@ -144,19 +144,18 @@ public class Player_gyutae : MonoBehaviour
 
         slide = isSlide;// 슬라이드 실행
         animator.SetBool("IsSlide", isSlide);
-        Debug.Log("애니메이터 IsSlide 작동: " + isSlide);
 
         if (isSlide)
         {
             capsuleCollider2D.size = slideColliderSize; // 슬라이드 크기로 변경
-            Debug.Log("슬라이드 크기 적용됨: " + slideColliderSize);
+            capsuleCollider2D.offset = slideColliderOffset;
         }
         else
         {
             animator.SetBool("IsSlide", false);
-            slide = false; // 슬라이드가 끝나면 런으로 돌아오기
             capsuleCollider2D.size = normalcolliderSize; // 기본 크기로 복구
             Debug.Log("슬라이드 종료, 콜라이더 원래 크기로 복구됨: " + normalcolliderSize);
+            capsuleCollider2D.offset = normalcolliderOffset;
 
         }
     }

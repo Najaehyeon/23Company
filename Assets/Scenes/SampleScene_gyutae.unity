@@ -752,7 +752,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   capsuleCollider2D: {fileID: 0}
-  playerJumpPower: 10
+  playerJumpPower: 15
   forwardSpeed: 0.1
   isDead: 0
   slide: 0
