@@ -11,16 +11,6 @@ public class Item : MonoBehaviour
     // 플레이어가 아이템을 획득했을 때 실행되는 메서드 (모든 아이템 공통)
     protected virtual void OnCollect(Player player)
     {
-        // 효과음 재생
-        if (AudioManager_LYR.instance != null)
-        {
-            AudioManager_LYR.instance.SFXPlay(SFXType.Item);
-        }
-        else
-        {
-            Debug.LogWarning("AudioManager_LYR 인스턴스를 찾을 수 없습니다!");
-        }
-        
         Destroy(gameObject); // 아이템 제거
         Debug.Log($"{gameObject.name} 아이템 획득!");
     }
