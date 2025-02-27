@@ -99,11 +99,16 @@ public class Player : MonoBehaviour
         {
             Debug.LogError("SpriteRenderer가 없습니다!");
         }
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        Vector3 velocity = _rigidbody.velocity; // _rigidbody 의 가속도 가져오기
+        velocity.x = forwardSpeed;
+        _rigidbody.velocity = velocity;
         JumpCheck();
 
         if (currentHealth <= 0)
@@ -150,14 +155,32 @@ public class Player : MonoBehaviour
     {
         if (isDead) return; // 이미 죽었으면 충돌 무시
 
-        if (collision.gameObject.CompareTag("Ground"))  // 땅과 충돌하면 죽지 않도록 예외 처리
+        //if (collision.gameObject.CompareTag("Ground"))  // 땅과 충돌하면 죽지 않도록 예외 처리
+        //{
+        //    ground = true;   // 바닥 감지
+        //    jumpCount = 0;   // 점프 횟수 초기화
+        //    return;          // 죽지 않도록 예외 처리
+        //}
+
+
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
         {
-            ground = true;   // 바닥 감지
-            jumpCount = 0;   // 점프 횟수 초기화
-            return;          // 죽지 않도록 예외 처리
+            jumpCount = 0;
+            animator.SetBool("IsJump", false);
         }
+    }
 
-
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            jumpCount = 1;
+            animator.SetBool("IsJump", true);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -269,7 +292,7 @@ public class Player : MonoBehaviour
             animator.SetBool("IsJump", true);
             slide = false;
         }
-        if (jumpCount == 0)
+        //if (jumpCount == 0)
         {
             _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, 0);
             //_rigidbody.velocity = new Vector2(_rigidbody.velocity.x, playerJumpPower); // 1단 점프
@@ -366,25 +389,25 @@ public class Player : MonoBehaviour
 
     private void JumpCheck()
     {
-        ground = CheckGround();
+        //ground = CheckGround();
 
-        if (ground) // 바닥에 있을때
-        {
-            jumpCount = 0; // 점프횟수 초기화
-        }
+        //if (ground) // 바닥에 있을때
+        //{
+        //    jumpCount = 0; // 점프횟수 초기화
+        //}
 
         //if ((Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)) && jumpCount < 2)
         //if ((Input.GetKeyDown(KeyCode.Space)) && jumpCount < 2)
         //if ((Input.GetKeyDown(KeyCode.Space)) && jumpCount < 1 && !slide)
-        if ((Input.GetKeyDown(KeyCode.Space)) && jumpCount < 1)
+        if ((Input.GetKeyDown(KeyCode.Space)) && jumpCount < 2)
         { // 2단 점프 제한
             Jump();
 
 
-            ground = false;
+           // ground = false;
         }
 
-        if (ground && Input.GetKey(KeyCode.LeftShift)) // 바닥에 있을때만 슬라이드 가능
+        if (jumpCount ==0 && Input.GetKey(KeyCode.LeftShift)) // 바닥에 있을때만 슬라이드 가능
         {
             Slide(true);
         }
