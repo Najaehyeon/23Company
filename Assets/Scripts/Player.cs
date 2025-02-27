@@ -13,17 +13,18 @@ public class Player : MonoBehaviour
     AnimationHandler animationHandler;
     SpriteRenderer spriteRenderer;
     Coroutine coroutine;
+    DoctorComtroller doctorComtroller;
     public CapsuleCollider2D capsuleCollider2D; // 캡슐 콜라이더2d 참조
 
     private Vector2 normalcolliderSize; // 기본크기 저장
     private Vector2 normalcolliderOffset; // 기본 오프셋 저장
     private Vector2 slideColliderSize = new Vector2(3f, 2.8f); // 슬라이드시 사이즈
     private Vector2 slideColliderOffset = new Vector2(0f, -2.2f); // 슬라이드시 콜라이더 위치 이동
-    private Vector3 DoctorSponPosition =Vector3.zero;
+    private Vector3 DoctorSponPosition = Vector3.zero;
 
     public float playerJumpPower = 15f; // 점프하는 힘
-    public float forwardSpeed = 0f; // 전진 속도
-    public float forwardSpeed_before = 0f; // 전진 속도
+    private float forwardSpeed = 12f; // 전진 속도
+    private float forwardSpeed_before = 12f; // 전진 속도
     public float currentHealth = 0f;
     public float maxHealth = 100f;
     public int ObstacleDamage = -10;
@@ -35,13 +36,15 @@ public class Player : MonoBehaviour
     public bool isDead = false; // 생사여부 확인
     float deathCooldown = 1f; // 죽는 모션 딜레이
 
-    public bool slide =false; // 슬라이드 작동
+    public bool slide = false; // 슬라이드 작동
     private bool ground;
     private int jumpCount = 0;
     float lastPosition_Y = 0f;
     bool isRun = false; // 점프유무 체크 요소 // 기본행동
     float Position = 0f;
-    
+    bool sponbool = false;
+    bool diebool = false;
+    public GameObject prefabToSpawn; // Inspector에서 할당할 프리팹
 
     ItemManager itemManager;
 
@@ -75,6 +78,7 @@ public class Player : MonoBehaviour
 
         //체력 초기화 
         currentHealth = maxHealth;
+        currentHealth = 10;
         //속도초기화
         forwardSpeed_before = 15f; // 전진 속도
 
@@ -90,6 +94,7 @@ public class Player : MonoBehaviour
         animationHandler = FindObjectOfType<AnimationHandler>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         capsuleCollider2D = GetComponent<CapsuleCollider2D>();
+        doctorComtroller = FindObjectOfType<DoctorComtroller>();
         normalcolliderSize = capsuleCollider2D.size;
         normalcolliderOffset = capsuleCollider2D.offset;
 
@@ -110,29 +115,38 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (diebool) return;
         Vector3 velocity = _rigidbody.velocity; // _rigidbody 의 가속도 가져오기
         velocity.x = forwardSpeed;
         _rigidbody.velocity = velocity;
         JumpCheck();
 
-        if (currentHealth <= 0)
+        if (currentHealth <= 0 )
         {
-            Time.timeScale = 0f;
+            diebool= true;
+           // Time.timeScale = 0f;
             //Die 애니메이션 
             //최고점수 기록 
             float bestscore = PlayerPrefs.GetInt("highscore");
             int currentscore = itemManager.totalScore;
             if (bestscore < currentscore)
             {
-                //죽기전에 애니메이션 보여주고 죽는 모습 
 
-                isDead = true;
-                animator.SetInteger("IsDie", 1); // 애니메이터에 "IsDie"라는 파라미터의 값을 1로 설정(블럭연결)
                 PlayerPrefs.SetInt("highscore", itemManager.totalScore);//데이터 저장
             }
+            //죽기전에 애니메이션 보여주고 죽는 모습 
+            isDead = true;
+            animator.SetInteger("IsDie", 1); // 애니메이터에 "IsDie"라는 파라미터의 값을 1로 설정(블럭연결)
+            _rigidbody.velocity = Vector2.zero;
+            if (!sponbool)
+            {
+                //여기서 Doctor를 만들고 (생성? 또는 만들어두고 위치만 변경?)
+                sponbool = true;
+                doctorComtroller.spowinit();
 
-            gameUI.ActiveGameOverUI();
-            //currentHealth = maxHealth;
+            }
+            //gameUI.ActiveGameOverUI();
+
         }
     }
 
@@ -148,7 +162,7 @@ public class Player : MonoBehaviour
     {
         if (isDead) return; // 이미 죽었으면 충돌 무시
 
-        
+
     }
 
     private void OnCollisionStay2D(Collision2D collision)
@@ -221,7 +235,7 @@ public class Player : MonoBehaviour
 
     public void SpeedUp(float amount, float duration)   // 플레이어 속도 증가
     {
-        
+
         forwardSpeed += amount; // 속도 증가
         Invoke(nameof(ResetSpeed), duration);   // 일정 시간 후 원래 속도로 복귀
         Debug.Log("스피드업");
@@ -260,7 +274,7 @@ public class Player : MonoBehaviour
 
     void Jump()
     {
-        
+
         if (slide)
         {
             Slide(false);
@@ -358,10 +372,10 @@ public class Player : MonoBehaviour
             Jump();
 
 
-           // ground = false;
+            // ground = false;
         }
 
-        if (jumpCount ==0 && Input.GetKey(KeyCode.LeftShift)) // 바닥에 있을때만 슬라이드 가능
+        if (jumpCount == 0 && Input.GetKey(KeyCode.LeftShift)) // 바닥에 있을때만 슬라이드 가능
         {
             Slide(true);
         }
@@ -384,7 +398,7 @@ public class Player : MonoBehaviour
         }
         else // 죽지 않은 상태 
         {
-            
+
             if ((Input.GetKeyDown(KeyCode.Space)) && jumpCount < 1)
             {
                 isRun = true;
@@ -394,13 +408,44 @@ public class Player : MonoBehaviour
 
     public void Flip_X()
     {
-        spriteRenderer.flipX= true;
+        spriteRenderer.flipX = true;
     }
 
-    public void Exit_run(Vector3 direction,float speed)
+    public void Exit_run(Vector3 direction, float speed)
     {
         //정해진 속도 와 방향으로 이동하기 
-       
+        animator.SetInteger("IsDie", 0);
         transform.position += direction * speed * Time.deltaTime;
+    }
+
+    // 새 GameObject를 생성하는 메서드
+    private void SpawnNewGameObject()
+    {
+        // 프리팹이 할당되었는지 확인
+        if (prefabToSpawn != null)
+        {
+            // 현재 위치에서 약간 앞에 생성
+            Vector3 spawnPosition = transform.position + new Vector3(16f, 0f, 0f);
+
+            // GameObject 생성
+            GameObject newObject = Instantiate(prefabToSpawn, spawnPosition, Quaternion.identity);
+
+            // 필요하다면 생성된 GameObject에 추가 설정
+            // 예: 이름 설정
+            newObject.name = "SpawnedObject_" + Time.time;
+
+            Debug.Log("새 GameObject가 생성되었습니다: " + newObject.name);
+        }
+        else
+        {
+            Debug.LogError("생성할 프리팹이 할당되지 않았습니다. Inspector에서 prefabToSpawn을 설정해주세요.");
+        }
+    }
+    public void SetRunAni(float speed)
+    {
+        animator.SetInteger("IsDie", 0);
+        Vector3 velocity = _rigidbody.velocity; // _rigidbody 의 가속도 가져오기
+        velocity.x = speed;
+        _rigidbody.velocity = velocity;
     }
 }
