@@ -24,11 +24,11 @@ public class ItemManager : MonoBehaviour
     
     void Awake()
     {
-        // 🔹 싱글턴 중복 방지
+        // 싱글톤 중복 생성 방지
         if (_instance == null)  // 만약 이미 인스턴스가 존재하면 새로 생성된 객체를 삭제
         {
             _instance = this;
-            DontDestroyOnLoad(gameObject);  // 씬 전환 시에도 오브젝트를 파괴하지 않음
+            DontDestroyOnLoad(gameObject);  // 씬 전환 시에도 유지
         }
         else
         {
@@ -40,6 +40,6 @@ public class ItemManager : MonoBehaviour
     public void AddScore(int score)
     {
         totalScore += score;
-        Debug.Log($"점수 추가됨: {score}, 현재 점수: {totalScore}");
+        //Debug.Log($"점수 추가됨: {score}, 현재 점수: {totalScore}");
     }
 }

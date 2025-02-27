@@ -1016,7 +1016,7 @@ Animator:
   m_GameObject: {fileID: 600131674}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 81f35823551b80f44a09a66aba5a227d, type: 2}
+  m_Controller: {fileID: 9100000, guid: b40c9eaebe1386242ad6b73a3c8ac552, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1130,6 +1130,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f1af8a66e35e3946a2daf07d096d7a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pausePanel: {fileID: 0}
+  gameOverPanel: {fileID: 0}
 --- !u!1 &1163784413
 GameObject:
   m_ObjectHideFlags: 0
@@ -1620,7 +1622,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d5da81a5bf0c12478a4f4b9a98fb793, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pauseUI: {fileID: 538342221}
 --- !u!1001 &1513008552
 PrefabInstance:
   m_ObjectHideFlags: 0
