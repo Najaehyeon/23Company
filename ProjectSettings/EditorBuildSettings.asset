@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GameScene.unity
     guid: fdec56c86f61a42408267eecdd8aec26
+  - enabled: 1
+    path: Assets/Scenes/jaehyeon_Scene/GameScene_jaehyeon.unity
+    guid: e376cbf07e34db348b337495660e4541
   m_configObjects: {}
