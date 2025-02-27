@@ -1076,9 +1076,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 402d9aee02e70d54ca286510fdc0b6b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerJumpPower: 17
-  forwardSpeed: 13
-  forwardSpeed_before: 10
+  capsuleCollider2D: {fileID: 0}
+  playerJumpPower: 35
+  forwardSpeed: 12
+  forwardSpeed_before: 12
   currentHealth: 0
   maxHealth: 100
   ObstacleDamage: -10

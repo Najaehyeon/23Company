@@ -12,6 +12,12 @@ public class Player : MonoBehaviour
     AnimationHandler animationHandler;
     SpriteRenderer spriteRenderer;
     Coroutine coroutine;
+    public CapsuleCollider2D capsuleCollider2D; // 캡슐 콜라이더2d 참조
+
+    private Vector2 normalcolliderSize; // 기본크기 저장
+    private Vector2 normalcolliderOffset; // 기본 오프셋 저장
+    private Vector2 slideColliderSize = new Vector2(3f, 2.8f); // 슬라이드시 사이즈
+    private Vector2 slideColliderOffset = new Vector2(0f, -2.2f); // 슬라이드시 콜라이더 위치 이동
 
     public float playerJumpPower = 15f; // 점프하는 힘
     public float forwardSpeed = 0f; // 전진 속도
@@ -26,7 +32,7 @@ public class Player : MonoBehaviour
 
     public bool isDead = false; // 생사여부 확인
     float deathCooldown = 0f; // 죽는 모션 딜레이
-    public bool slide; // 슬라이드 작동
+    public bool slide =false; // 슬라이드 작동
     private bool ground;
     private int jumpCount = 0;
     float lastPosition_Y = 0f;
@@ -65,6 +71,9 @@ public class Player : MonoBehaviour
 
         //체력 초기화 
         currentHealth = maxHealth;
+        //속도초기화
+        forwardSpeed_before = 15f; // 전진 속도
+
     }
 
     // Start is called before the first frame update
@@ -76,6 +85,9 @@ public class Player : MonoBehaviour
         gameUI = FindAnyObjectByType<GameUI>();
         animationHandler = FindObjectOfType<AnimationHandler>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        capsuleCollider2D = GetComponent<CapsuleCollider2D>();
+        normalcolliderSize = capsuleCollider2D.size;
+        normalcolliderOffset = capsuleCollider2D.offset;
 
         if (animator == null)
             Debug.Log("ani error");
@@ -87,8 +99,6 @@ public class Player : MonoBehaviour
         {
             Debug.LogError("SpriteRenderer가 없습니다!");
         }
-
-        //spriteRenderer.color = new Color(1f, 0f, 0f, 0.4f); // 색상 변경
     }
 
     // Update is called once per frame
@@ -105,6 +115,9 @@ public class Player : MonoBehaviour
             int currentscore = itemManager.totalScore;
             if (bestscore < currentscore)
             {
+                isDead = true;
+                deathCooldown = 1f;
+                animator.SetInteger("IsDie", 1); // 애니메이터에 "IsDie"라는 파라미터의 값을 1로 설정(블럭연결)
                 PlayerPrefs.SetInt("highscore", itemManager.totalScore);//데이터 저장
             }
 
@@ -118,17 +131,17 @@ public class Player : MonoBehaviour
 
         if (isDead) return; // isDead 가 true 라면 작업하지 않고 반환
 
-        Vector3 velocity = _rigidbody.velocity; // _rigidbody 의 가속도 가져오기
-        velocity.x = forwardSpeed;
+        //Vector3 velocity = _rigidbody.velocity; // _rigidbody 의 가속도 가져오기
+        //velocity.x = forwardSpeed;
 
-        if (isRun) // isRun 이 true 일때
-        {
-            velocity.y += playerJumpPower; // velocity.y 에 점프할때 가속 적용
-            //velocity.y = playerJump; // velocity.y 에 점프하는 힘 넣기 차이가 뭐지
-            isRun = false;
-        }
+        //if (isRun) // isRun 이 true 일때
+        //{
+        //    velocity.y += playerJumpPower; // velocity.y 에 점프할때 가속 적용
+        //    //velocity.y = playerJump; // velocity.y 에 점프하는 힘 넣기 차이가 뭐지
+        //    isRun = false;
+        //}
 
-        _rigidbody.velocity = velocity; // 다시 넣어줘야함
+        //_rigidbody.velocity = velocity; // 다시 넣어줘야함
 
         AddScore_position();
     }
@@ -143,9 +156,7 @@ public class Player : MonoBehaviour
             jumpCount = 0;   // 점프 횟수 초기화
             return;          // 죽지 않도록 예외 처리
         }
-        //isDead = true;
-        //deathCooldown = 1f;
-        //animator.SetInteger("IsDie", 1); // 애니메이터에 "IsDie"라는 파라미터의 값을 1로 설정(블럭연결)
+
 
     }
 
@@ -208,7 +219,7 @@ public class Player : MonoBehaviour
 
     public void SpeedUp(float amount, float duration)   // 플레이어 속도 증가
     {
-        forwardSpeed_before = forwardSpeed;
+        //forwardSpeed_before = forwardSpeed;
         forwardSpeed += amount; // 속도 증가
         Invoke(nameof(ResetSpeed), duration);   // 일정 시간 후 원래 속도로 복귀
         Debug.Log("스피드업");
@@ -247,22 +258,50 @@ public class Player : MonoBehaviour
 
     void Jump()
     {
-        animator.SetBool("IsJump", true);
+        //if (jumpCount ==1)
+        //{
+        //    //_rigidbody.velocity = new Vector2(_rigidbody.velocity.x, 0);
+        //    _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, playerJumpPower); // 1단 점프
+        //}
+        if (slide)
+        {
+            Slide(false);
+            animator.SetBool("IsJump", true);
+            slide = false;
+        }
         if (jumpCount == 0)
         {
-            // _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, playerJumpPower); // 1단 점프
+            _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, 0);
+            //_rigidbody.velocity = new Vector2(_rigidbody.velocity.x, playerJumpPower); // 1단 점프
             _rigidbody.AddForce(Vector3.up * playerJumpPower, ForceMode2D.Impulse);
+            jumpCount++;
         }
 
-        else if (jumpCount == 1)
-        {
-            _rigidbody.AddForce(Vector3.up * playerJumpPower, ForceMode2D.Impulse); // 2단 점프 힘 증가
-        }
+        //else if (jumpCount == 1)
+        //{
+        //    _rigidbody.AddForce(Vector3.up * playerJumpPower, ForceMode2D.Impulse); // 2단 점프 힘 증가
+        //}
     }
     private void Slide(bool isSlide)
     {
+        if (slide == isSlide) return; // 현재 상태와 동일하면 무시
+
         slide = isSlide;
         animator.SetBool("IsSlide", isSlide); // 애니메이션 설정
+
+        if (isSlide)
+        {
+            capsuleCollider2D.size = slideColliderSize; // 슬라이드 크기로 변경
+            capsuleCollider2D.offset = slideColliderOffset;
+        }
+        else
+        {
+            animator.SetBool("IsSlide", false);
+            capsuleCollider2D.size = normalcolliderSize; // 기본 크기로 복구
+            Debug.Log("슬라이드 종료, 콜라이더 원래 크기로 복구됨: " + normalcolliderSize);
+            capsuleCollider2D.offset = normalcolliderOffset;
+
+        }
     }
 
 
@@ -273,19 +312,22 @@ public class Player : MonoBehaviour
         LayerMask groundLayer = LayerMask.GetMask("Ground"); // 바닥 그라운드 레이어
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, rayLength, groundLayer);
         Debug.DrawRay(transform.position, Vector2.down * rayLength, Color.red);
-        lastPosition_Y = transform.position.y;
-        if (hit.collider != null && transform.position.y <= lastPosition_Y) //땅에 닿고 있고 +내려가는중
+        //lastPosition_Y = transform.position.y;
+
+        //if (hit.collider != null && _rigidbody.velocity.y <0) //땅에 닿고 있고 +내려가는중
+        //if (hit.collider != null && transform.position.y < lastPosition_Y) //땅에 닿고 있고 +내려가는중
+        if (hit.collider != null) // 바닥에 충돌한 오브젝트가 있다면
         {
             animator.SetBool("IsJump", false);
             // Physics2D.Raycast 물리충돌을 감지하는 레이저 발사 , 플레이어 위치에서 레이저 발사
             // Vector2.down 아래 방향으로 0.3f 만큼의 길이를 발사. 바닥이 있는지 검사
-            return false; // 바닥이 감지되면 점프 초기화
+            return true; // 바닥이 감지되면 점프 초기화
 
         }
         else // 여기는 땅에 안닿고있고 올라가는중?
         {
             animator.SetBool("IsJump", true);
-            return true;
+            return false;
         }
     }
 
@@ -332,20 +374,21 @@ public class Player : MonoBehaviour
         }
 
         //if ((Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)) && jumpCount < 2)
-        if ((Input.GetKeyDown(KeyCode.Space)) && jumpCount < 2)
+        //if ((Input.GetKeyDown(KeyCode.Space)) && jumpCount < 2)
+        //if ((Input.GetKeyDown(KeyCode.Space)) && jumpCount < 1 && !slide)
+        if ((Input.GetKeyDown(KeyCode.Space)) && jumpCount < 1)
         { // 2단 점프 제한
             Jump();
-            jumpCount++;
+
 
             ground = false;
         }
 
-        //if ((Input.GetKey(KeyCode.DownArrow) || Input.GetMouseButtonDown(1)) && ground)
-        if ((Input.GetKey(KeyCode.DownArrow)) && ground)
+        if (ground && Input.GetKey(KeyCode.LeftShift)) // 바닥에 있을때만 슬라이드 가능
         {
             Slide(true);
         }
-        else
+        else if (Input.GetKeyUp(KeyCode.LeftShift))
         {
             Slide(false);
         }
@@ -365,7 +408,8 @@ public class Player : MonoBehaviour
         else // 죽지 않은 상태 
         {
             //if ((Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)) && jumpCount < 2)
-            if ((Input.GetKeyDown(KeyCode.Space)) && jumpCount < 2)
+            //if ((Input.GetKeyDown(KeyCode.Space)) && jumpCount < 2)
+            if ((Input.GetKeyDown(KeyCode.Space)) && jumpCount < 1)
             {
                 isRun = true;
             }
