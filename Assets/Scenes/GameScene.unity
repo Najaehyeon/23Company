@@ -1078,8 +1078,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   capsuleCollider2D: {fileID: 0}
   playerJumpPower: 35
-  forwardSpeed: 15
-  forwardSpeed_before: 15
+  forwardSpeed: 12
+  forwardSpeed_before: 12
   currentHealth: 0
   maxHealth: 100
   ObstacleDamage: -10

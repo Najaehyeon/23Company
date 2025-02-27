@@ -32,7 +32,7 @@ public class Player : MonoBehaviour
 
     public bool isDead = false; // 생사여부 확인
     float deathCooldown = 0f; // 죽는 모션 딜레이
-    public bool slide; // 슬라이드 작동
+    public bool slide =false; // 슬라이드 작동
     private bool ground;
     private int jumpCount = 0;
     float lastPosition_Y = 0f;
@@ -131,17 +131,17 @@ public class Player : MonoBehaviour
 
         if (isDead) return; // isDead 가 true 라면 작업하지 않고 반환
 
-        Vector3 velocity = _rigidbody.velocity; // _rigidbody 의 가속도 가져오기
-        velocity.x = forwardSpeed;
+        //Vector3 velocity = _rigidbody.velocity; // _rigidbody 의 가속도 가져오기
+        //velocity.x = forwardSpeed;
 
-        if (isRun) // isRun 이 true 일때
-        {
-            velocity.y += playerJumpPower; // velocity.y 에 점프할때 가속 적용
-            //velocity.y = playerJump; // velocity.y 에 점프하는 힘 넣기 차이가 뭐지
-            isRun = false;
-        }
+        //if (isRun) // isRun 이 true 일때
+        //{
+        //    velocity.y += playerJumpPower; // velocity.y 에 점프할때 가속 적용
+        //    //velocity.y = playerJump; // velocity.y 에 점프하는 힘 넣기 차이가 뭐지
+        //    isRun = false;
+        //}
 
-        _rigidbody.velocity = velocity; // 다시 넣어줘야함
+        //_rigidbody.velocity = velocity; // 다시 넣어줘야함
 
         AddScore_position();
     }
@@ -360,7 +360,8 @@ public class Player : MonoBehaviour
 
         //if ((Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)) && jumpCount < 2)
         //if ((Input.GetKeyDown(KeyCode.Space)) && jumpCount < 2)
-        if ((Input.GetKeyDown(KeyCode.Space)) && jumpCount < 1 && !slide)
+        //if ((Input.GetKeyDown(KeyCode.Space)) && jumpCount < 1 && !slide)
+        if ((Input.GetKeyDown(KeyCode.Space)) && jumpCount < 1)
         { // 2단 점프 제한
             Jump();
 
