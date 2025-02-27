@@ -325,9 +325,8 @@ public class Player : MonoBehaviour
             animator.SetBool("IsJump", true);
             return false;
         }
-
-
     }
+
     private void AddScore_position()
     {
         float currentPosition = gameObject.transform.position.x;
