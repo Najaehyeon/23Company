@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEditor.Tilemaps;
 using UnityEngine;
 using static UnityEditor.Progress;
+using static UnityEngine.GraphicsBuffer;
 
 public class Player : MonoBehaviour
 {
@@ -124,9 +125,7 @@ public class Player : MonoBehaviour
             if (bestscore < currentscore)
             {
                 //죽기전에 애니메이션 보여주고 죽는 모습 
-                Vector3 DiePosition=gameObject.transform.position;
-                DoctorSponPosition=DiePosition + new Vector3(16f, 0f);
-                
+
                 isDead = true;
                 animator.SetInteger("IsDie", 1); // 애니메이터에 "IsDie"라는 파라미터의 값을 1로 설정(블럭연결)
                 PlayerPrefs.SetInt("highscore", itemManager.totalScore);//데이터 저장
@@ -393,4 +392,15 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void Flip_X()
+    {
+        spriteRenderer.flipX= true;
+    }
+
+    public void Exit_run(Vector3 direction,float speed)
+    {
+        //정해진 속도 와 방향으로 이동하기 
+       
+        transform.position += direction * speed * Time.deltaTime;
+    }
 }
