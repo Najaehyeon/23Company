@@ -354,22 +354,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            jumpCount = 0;
-        }
-    }
-
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            jumpCount = 1;
-        }
-    }
-
     private void AddScore_position()
     {
         float currentPosition = gameObject.transform.position.x;
