@@ -134,8 +134,9 @@ public class Player_gyutae : MonoBehaviour
 
         if (jumpCount == 0)
         {
-           // _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, playerJumpPower); // 1단 점프
-            _rigidbody.AddForce(Vector3.up*playerJumpPower, ForceMode2D.Impulse);
+             _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, 0);
+            // _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, playerJumpPower); // 1단 점프
+            //_rigidbody.AddForce(Vector3.up*playerJumpPower, ForceMode2D.Impulse);
         }
     }
     void Slide(bool isSlide)
