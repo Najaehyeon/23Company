@@ -685,7 +685,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 538323665}
-  - component: {fileID: 538323667}
+  - component: {fileID: 538323670}
   - component: {fileID: 538323666}
   - component: {fileID: 538323668}
   - component: {fileID: 538323669}
@@ -705,7 +705,7 @@ Transform:
   m_GameObject: {fileID: 538323663}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12, y: -4.24, z: 0}
+  m_LocalPosition: {x: -12, y: -4.48, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -739,8 +739,37 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!61 &538323667
-BoxCollider2D:
+--- !u!114 &538323668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 538323663}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4189af7b61ef8354884b2c156004eefb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  capsuleCollider2D: {fileID: 0}
+  playerJumpPower: 15
+  forwardSpeed: 0.1
+  isDead: 0
+  slide: 0
+--- !u!114 &538323669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 538323663}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc6905a403628c04cb8b404a59e5da9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!70 &538323670
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -771,47 +800,9 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.2}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 3.46, y: 6.7}
-  m_EdgeRadius: 0
---- !u!114 &538323668
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 538323663}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4189af7b61ef8354884b2c156004eefb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerJumpPower: 10
-  forwardSpeed: 3
-  isDead: 0
-  slide: 0
---- !u!114 &538323669
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 538323663}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc6905a403628c04cb8b404a59e5da9d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Offset: {x: 0.23, y: -0.13}
+  m_Size: {x: 3.84, y: 6.57}
+  m_Direction: 0
 --- !u!1 &538342221
 GameObject:
   m_ObjectHideFlags: 0
@@ -1025,7 +1016,7 @@ Animator:
   m_GameObject: {fileID: 600131674}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 81f35823551b80f44a09a66aba5a227d, type: 2}
+  m_Controller: {fileID: 9100000, guid: b40c9eaebe1386242ad6b73a3c8ac552, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1139,6 +1130,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f1af8a66e35e3946a2daf07d096d7a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pausePanel: {fileID: 0}
+  gameOverPanel: {fileID: 0}
 --- !u!1 &1163784413
 GameObject:
   m_ObjectHideFlags: 0
@@ -1629,7 +1622,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d5da81a5bf0c12478a4f4b9a98fb793, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pauseUI: {fileID: 538342221}
 --- !u!1001 &1513008552
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1977,6 +1969,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 802185251492940329, guid: 25562d3124debd449b4fde268f84237e, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 802185251492940329, guid: 25562d3124debd449b4fde268f84237e, type: 3}
       propertyPath: m_TagString
       value: Ground

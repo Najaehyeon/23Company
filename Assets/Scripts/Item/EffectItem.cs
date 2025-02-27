@@ -35,7 +35,7 @@ public class EffectItem : Item
                 player.Heal(10);    // 체력 10 회복
                 break;
             case ItemType.Fireball:
-                player.SpeedUp(2f, 5f); // 속도 2 증가, 5초 후 원래 속도로 복귀
+                player.SpeedUp(5f, 5f); // 속도 2 증가, 5초 후 원래 속도로 복귀
                 break;
             case ItemType.Poison:
                 player.StartCoroutine(player.TakePoisonDamage(3, 5, 0.5f)); // 3 데미지, 5번 반복, 0.5초 간격

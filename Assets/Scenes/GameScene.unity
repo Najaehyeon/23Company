@@ -1040,7 +1040,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 7
+  m_GravityScale: 10
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -1076,9 +1076,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 402d9aee02e70d54ca286510fdc0b6b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerJumpPower: 15
-  forwardSpeed: 10
-  forwardSpeed_before: 5
+  capsuleCollider2D: {fileID: 0}
+  playerJumpPower: 35
+  forwardSpeed: 12
+  forwardSpeed_before: 12
   currentHealth: 0
   maxHealth: 100
   ObstacleDamage: -10
@@ -1119,7 +1120,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 4.84, y: 7.06}
+  m_Size: {x: 2.9, y: 6.16}
   m_Direction: 0
 --- !u!1001 &622204725
 PrefabInstance:
