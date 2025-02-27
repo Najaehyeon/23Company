@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
     private Vector2 normalcolliderOffset; // 기본 오프셋 저장
     private Vector2 slideColliderSize = new Vector2(3f, 2.8f); // 슬라이드시 사이즈
     private Vector2 slideColliderOffset = new Vector2(0f, -2.2f); // 슬라이드시 콜라이더 위치 이동
+    private Vector3 DoctorSponPosition =Vector3.zero;
 
     public float playerJumpPower = 15f; // 점프하는 힘
     public float forwardSpeed = 0f; // 전진 속도
@@ -31,13 +32,15 @@ public class Player : MonoBehaviour
     private float HitTime = 1f;
 
     public bool isDead = false; // 생사여부 확인
-    float deathCooldown = 0f; // 죽는 모션 딜레이
+    float deathCooldown = 1f; // 죽는 모션 딜레이
+
     public bool slide =false; // 슬라이드 작동
     private bool ground;
     private int jumpCount = 0;
     float lastPosition_Y = 0f;
     bool isRun = false; // 점프유무 체크 요소 // 기본행동
     float Position = 0f;
+    
 
     ItemManager itemManager;
 
@@ -120,8 +123,11 @@ public class Player : MonoBehaviour
             int currentscore = itemManager.totalScore;
             if (bestscore < currentscore)
             {
+                //죽기전에 애니메이션 보여주고 죽는 모습 
+                Vector3 DiePosition=gameObject.transform.position;
+                DoctorSponPosition=DiePosition + new Vector3(16f, 0f);
+                
                 isDead = true;
-                deathCooldown = 1f;
                 animator.SetInteger("IsDie", 1); // 애니메이터에 "IsDie"라는 파라미터의 값을 1로 설정(블럭연결)
                 PlayerPrefs.SetInt("highscore", itemManager.totalScore);//데이터 저장
             }
@@ -136,18 +142,6 @@ public class Player : MonoBehaviour
 
         if (isDead) return; // isDead 가 true 라면 작업하지 않고 반환
 
-        //Vector3 velocity = _rigidbody.velocity; // _rigidbody 의 가속도 가져오기
-        //velocity.x = forwardSpeed;
-
-        //if (isRun) // isRun 이 true 일때
-        //{
-        //    velocity.y += playerJumpPower; // velocity.y 에 점프할때 가속 적용
-        //    //velocity.y = playerJump; // velocity.y 에 점프하는 힘 넣기 차이가 뭐지
-        //    isRun = false;
-        //}
-
-        //_rigidbody.velocity = velocity; // 다시 넣어줘야함
-
         AddScore_position();
     }
 
@@ -155,14 +149,7 @@ public class Player : MonoBehaviour
     {
         if (isDead) return; // 이미 죽었으면 충돌 무시
 
-        //if (collision.gameObject.CompareTag("Ground"))  // 땅과 충돌하면 죽지 않도록 예외 처리
-        //{
-        //    ground = true;   // 바닥 감지
-        //    jumpCount = 0;   // 점프 횟수 초기화
-        //    return;          // 죽지 않도록 예외 처리
-        //}
-
-
+        
     }
 
     private void OnCollisionStay2D(Collision2D collision)
@@ -191,14 +178,7 @@ public class Player : MonoBehaviour
             {
                 // 애니메이션 실행
                 Debug.Log("체력감소");
-                //if (collision.gameObject.name.Contains("Down"))
-                //{
-                //    animationHandler.Hit();
-                //}
-                //else
-                //{
-                //    animationHandler.JumpHit();
-                //}
+
                 Heal(ObstacleDamage); //체력감소
                 if (coroutine != null)
                 {
@@ -242,7 +222,7 @@ public class Player : MonoBehaviour
 
     public void SpeedUp(float amount, float duration)   // 플레이어 속도 증가
     {
-        //forwardSpeed_before = forwardSpeed;
+        
         forwardSpeed += amount; // 속도 증가
         Invoke(nameof(ResetSpeed), duration);   // 일정 시간 후 원래 속도로 복귀
         Debug.Log("스피드업");
@@ -281,11 +261,7 @@ public class Player : MonoBehaviour
 
     void Jump()
     {
-        //if (jumpCount ==1)
-        //{
-        //    //_rigidbody.velocity = new Vector2(_rigidbody.velocity.x, 0);
-        //    _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, playerJumpPower); // 1단 점프
-        //}
+        
         if (slide)
         {
             Slide(false);
@@ -300,10 +276,7 @@ public class Player : MonoBehaviour
             jumpCount++;
         }
 
-        //else if (jumpCount == 1)
-        //{
-        //    _rigidbody.AddForce(Vector3.up * playerJumpPower, ForceMode2D.Impulse); // 2단 점프 힘 증가
-        //}
+
     }
     private void Slide(bool isSlide)
     {
@@ -381,9 +354,6 @@ public class Player : MonoBehaviour
         //    jumpCount = 0; // 점프횟수 초기화
         //}
 
-        //if ((Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)) && jumpCount < 2)
-        //if ((Input.GetKeyDown(KeyCode.Space)) && jumpCount < 2)
-        //if ((Input.GetKeyDown(KeyCode.Space)) && jumpCount < 1 && !slide)
         if ((Input.GetKeyDown(KeyCode.Space)) && jumpCount < 2)
         { // 2단 점프 제한
             Jump();
@@ -415,8 +385,7 @@ public class Player : MonoBehaviour
         }
         else // 죽지 않은 상태 
         {
-            //if ((Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)) && jumpCount < 2)
-            //if ((Input.GetKeyDown(KeyCode.Space)) && jumpCount < 2)
+            
             if ((Input.GetKeyDown(KeyCode.Space)) && jumpCount < 1)
             {
                 isRun = true;
