@@ -1,8 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using UnityEditor.Build.Content;
 using UnityEngine;
 
 // 아이템 기본 클래스 (부모 클래스)

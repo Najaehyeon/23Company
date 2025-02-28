@@ -29,7 +29,10 @@ public class MenuButtons : MonoBehaviour
 
     public void QuitGame() // Quit버튼 누를 때 실행되는 메서드
     {
+#if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;  // 에디터에서는 게임을 중지합니다.
+#else
         Application.Quit();  // 빌드된 애플리케이션에서는 종료합니다.
+#endif
     }
 }
