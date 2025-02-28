@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class CutSceneManager : MonoBehaviour
@@ -33,13 +34,18 @@ public class CutSceneManager : MonoBehaviour
 
     IEnumerator FadeCut()
     {
-        for (int i = 0; i < images.Length; i++)
+        if (PlayerPrefs.GetInt("Story", 0) == 0)
         {
-            StartCoroutine(FadeIn(images[i], texts[i]));
-            yield return new WaitForSeconds(fadeDuration + 4);
-            StartCoroutine(FadeOut(images[i], texts[i]));
-            yield return new WaitForSeconds(fadeDuration);
+            for (int i = 0; i < images.Length; i++)
+            {
+                StartCoroutine(FadeIn(images[i], texts[i]));
+                yield return new WaitForSeconds(fadeDuration + 4);
+                StartCoroutine(FadeOut(images[i], texts[i]));
+                yield return new WaitForSeconds(fadeDuration);
+            }
+            PlayerPrefs.SetInt("Story", 1);
         }
+        SceneManager.LoadScene("StartScene");
     }
 
     IEnumerator FadeIn(Image image, Text text)
