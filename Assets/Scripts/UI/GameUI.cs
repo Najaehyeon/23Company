@@ -6,8 +6,6 @@ using UnityEngine.UI;
 public class GameUI : MonoBehaviour
 {
     // 체력 슬라이드 구현, 점수 업데이트
-
-
     Slider hpSlider ; //0~100
     Text scoreText;
 
