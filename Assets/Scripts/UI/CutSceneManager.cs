@@ -15,7 +15,6 @@ public class CutSceneManager : MonoBehaviour
 
     private void Start()
     {
-        PlayerPrefs.SetInt("Story", 0);
         foreach (Image image in images)
         {
             Color imageColor = image.color;
