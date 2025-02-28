@@ -45,8 +45,13 @@ public class ScoreItem : Item
     {
         if (!Player.Instance.isInvincible)
         {
-            base.OnCollect(player); // 아이템 제거 (부모 클래스의 OnCollect 실행)
-            ItemManager.Instance.AddScore(scoreAmount); // 점수 추가
+            // 효과음 재생
+            if (AudioManager.instance != null)
+            {
+                AudioManager.instance.SFXPlay(SFXType.ScoreItem);
+                base.OnCollect(player); // 아이템 제거 (부모 클래스의 OnCollect 실행)
+                ItemManager.Instance.AddScore(scoreAmount); // 점수 추가
+            }
         }
     }
 }
