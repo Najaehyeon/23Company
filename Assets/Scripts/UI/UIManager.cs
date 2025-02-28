@@ -11,7 +11,8 @@ public class UIManager : MonoBehaviour
         Player.Instance.init();
         Time.timeScale = 1.0f;
         ItemManager.Instance.totalScore = 0;
-
+        
+        AudioManager.instance.BGMPlay(1); // 게임 씬용 BGM 재생
     }
 
     public void Home() // ��ŸƮ ������ ���ư��� �޼��� => ���� ���� �гο����� ���
@@ -20,5 +21,7 @@ public class UIManager : MonoBehaviour
         Time.timeScale = 1.0f;
         
         SceneManager.LoadScene("StartScene");
+        
+        AudioManager.instance.BGMPlay(0); // 홈 화면용 BGM 재생
     }
 }
