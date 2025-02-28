@@ -191,6 +191,7 @@ public class Player : MonoBehaviour
             {
                 // 애니메이션 실행
                 Debug.Log("체력감소");
+                AudioManager.instance.SFXPlay(SFXType.Hit);
 
                 Heal(ObstacleDamage); //체력감소
                 if (coroutine != null)
@@ -338,9 +339,8 @@ public class Player : MonoBehaviour
             animator.SetBool("IsJump", true);
             return false;
         }
-
-
     }
+
     private void AddScore_position()
     {
         float currentPosition = gameObject.transform.position.x;
@@ -370,6 +370,7 @@ public class Player : MonoBehaviour
         if ((Input.GetKeyDown(KeyCode.Space)) && jumpCount < 2)
         { // 2단 점프 제한
             Jump();
+            AudioManager.instance.SFXPlay(SFXType.Jump);
 
 
             // ground = false;
@@ -378,6 +379,7 @@ public class Player : MonoBehaviour
         if (jumpCount == 0 && Input.GetKey(KeyCode.LeftShift)) // 바닥에 있을때만 슬라이드 가능
         {
             Slide(true);
+            AudioManager.instance.SFXPlay(SFXType.Slide);
         }
         else if (Input.GetKeyUp(KeyCode.LeftShift))
         {

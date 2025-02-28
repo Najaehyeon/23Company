@@ -5,20 +5,23 @@ using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
-    public void Restart() // °ÔÀÓ ´Ù½Ã ½ÃÀÛÇÏ´Â ¸Ş¼­µå ==> °ÔÀÓ ¿À¹ö ÆĞ³Î¿¡¼­µµ »ç¿ë
+    public void Restart() // ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Ş¼ï¿½ï¿½ï¿½ ==> ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ğ³Î¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
     {
         SceneManager.LoadScene("GameScene");
         Player.Instance.init();
         Time.timeScale = 1.0f;
         ItemManager.Instance.totalScore = 0;
-
+        
+        AudioManager.instance.BGMPlay(1); // ê²Œì„ ì”¬ìš© BGM ì¬ìƒ
     }
 
-    public void Home() // ½ºÅ¸Æ® ¾ÀÀ¸·Î µ¹¾Æ°¡´Â ¸Ş¼­µå => °ÔÀÓ ¿À¹ö ÆĞ³Î¿¡¼­µµ »ç¿ë
+    public void Home() // ï¿½ï¿½Å¸Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Æ°ï¿½ï¿½ï¿½ ï¿½Ş¼ï¿½ï¿½ï¿½ => ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ğ³Î¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
     {
         Player.Instance.init();
         Time.timeScale = 1.0f;
         
         SceneManager.LoadScene("StartScene");
+        
+        AudioManager.instance.BGMPlay(0); // í™ˆ í™”ë©´ìš© BGM ì¬ìƒ
     }
 }
