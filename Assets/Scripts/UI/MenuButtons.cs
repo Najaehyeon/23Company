@@ -11,6 +11,7 @@ public class MenuButtons : MonoBehaviour
     public void StartGame() // 게임 시작 버튼 누를 때 실행되는 메서드
     {
         SceneManager.LoadScene("GameScene");
+        AudioManager.instance.BGMPlay(1); // 게임 씬용 BGM 재생
         ItemManager.Instance.totalScore = 0;
     }
 
