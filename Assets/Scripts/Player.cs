@@ -78,9 +78,9 @@ public class Player : MonoBehaviour
 
         //체력 초기화 
         currentHealth = maxHealth;
-        currentHealth = 10;
+        currentHealth = 100;
         //속도초기화
-        forwardSpeed_before = 15f; // 전진 속도
+        forwardSpeed_before = 12f; // 전진 속도
 
     }
 

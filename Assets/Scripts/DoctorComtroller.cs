@@ -99,7 +99,7 @@ public class DoctorComtroller : MonoBehaviour
 
                 // Player 이동 시작
                 Player.Instance.Exit_run(moveDirection, runspeed);
-                DieCooldown();
+                StartCoroutine( DieCooldown());
             }
         }
 
@@ -107,7 +107,8 @@ public class DoctorComtroller : MonoBehaviour
     private IEnumerator DieCooldown()
     {
         //게임종료 
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(2);
+        Time.timeScale = 0;
         gameUI.ActiveGameOverUI();
     }
 
@@ -132,7 +133,7 @@ public class DoctorComtroller : MonoBehaviour
 
         isMovingAfterAttack = true;
 
-        transform.position = transform.position + new Vector3(-2f, 0f);
+        transform.position = target.transform.position + new Vector3(-2f, 0f);
         // 이 캐릭터(Doctor)도 같은 방향으로 이동하도록 설정
         if (rb != null)
         {
