@@ -29,7 +29,7 @@ public class Obstacle : MonoBehaviour
     //스라이드장애물 3 +아이템
 
     public float high_box_x_Min = 2.5f;
-    public float widthPadding = 20f;
+    public float widthPadding = 23f;
     // Start is called before the first frame update
     void Start()
     {
