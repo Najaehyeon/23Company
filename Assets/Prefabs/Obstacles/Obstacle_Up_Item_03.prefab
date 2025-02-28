@@ -95,7 +95,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   high_box_x_Min: 2.5
-  widthPadding: 15
+  widthPadding: 20
 --- !u!1001 &216490222443409042
 PrefabInstance:
   m_ObjectHideFlags: 0

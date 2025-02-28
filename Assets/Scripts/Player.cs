@@ -194,6 +194,7 @@ public class Player : MonoBehaviour
                 AudioManager.instance.SFXPlay(SFXType.Hit);
 
                 Heal(ObstacleDamage); //체력감소
+
                 if (coroutine != null)
                 {
                     StopCoroutine(coroutine);
@@ -264,8 +265,13 @@ public class Player : MonoBehaviour
         for (int i = 0; i < times; i++)
         {
             TakeDamage(damage);
+
+            //색상변경
+            spriteRenderer.color = new Color(1f, 0f, 0f, 0.4f); // 색상 변경
+
             Debug.Log($"독 데미지! 피해 {damage}, 현재 체력 {currentHealth}, 남은 횟수 {times - i - 1}번");
             yield return new WaitForSeconds(interval);  // n초(interval) 대기
+            spriteRenderer.color = Color.white;
         }
     }
 
