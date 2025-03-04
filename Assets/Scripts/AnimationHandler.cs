@@ -8,11 +8,11 @@ public class AnimationHandler : MonoBehaviour
     private static readonly int IsSlideHit = Animator.StringToHash("IsSlideHit");
     private static readonly int IsJumpHit = Animator.StringToHash("IsJumpHit");
     private static readonly int IsHit = Animator.StringToHash("IsHit");
-    // ¹®ÀÚ¸¦ ÇØ½¬¸¦ »ç¿ëÇÏ¿© ¼ýÀÚ¿­·Î ºñ±³ÇÏ´Â°ÍÀÌ ¿ëÀÌ
+    // ï¿½ï¿½ï¿½Ú¸ï¿½ ï¿½Ø½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï´Â°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     protected Animator animator;
     protected virtual void Awake()
     {
-        animator = GetComponentInChildren<Animator>();// ÇÏÀ§¿ÀºêÁ§Æ®±îÁö Àû¿ë
+        animator = GetComponentInChildren<Animator>();// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     }
     public void Jump(bool isJumping)
     {
@@ -37,7 +37,7 @@ public class AnimationHandler : MonoBehaviour
         animator.SetBool(IsHit, true);
         Invoke(nameof(ResetHit), 0.5f);
     }
-    public void ResetAnim()// ¾Ö´Ï¸ÞÀÌ¼Ç ÃÊ±âÈ­
+    public void ResetAnim()// ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½Ê±ï¿½È­
     {
         animator.SetBool(IsJump, false);
         animator.SetBool(IsSlide, false);
